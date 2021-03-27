@@ -1,0 +1,22 @@
+<%-- page 지시어 directive. import구문도 모아작성가능(따로작성도가능). --%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%
+	//jsp 스크립팅 요소 : scriptlet (완전자바공간)
+	int sum = 0;
+	for(int i = 0; i <= 10; i++){
+		sum += i;
+	}
+%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>jsp - basic</title>
+</head>
+<body>
+	<h1>Bsisc</h1>
+	<p>java로 계산된 결과 : <%= sum %></p>  <%-- jsp스크립팅 요소 : 출력식 (;을 찍지않는다)--%>
+	<p>java로 계산된 결과 : <% out.print(sum); %></p>  <%-- 위와 같은 구문 --%>
+</body>
+</html>

@@ -1,0 +1,71 @@
+package member.model.dao;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Properties;
+
+import member.model.vo.Member;
+
+public class MemberDao {
+
+	private Properties prop = new Properties();
+	
+	public Member selectOne(Connection conn, String memberId) {
+		Member m = null;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		//미리준비된 statement(query)
+		//String query = "select * from member where member_id=?";
+		String query = prop.getProperty("selectOne");
+		
+		try {
+			//미완성쿼리문을 가지고 객체생성함
+			pstmt = conn.prepareStatement(query);
+			//쿼리문 완성작업
+			pstmt.setString(1, memberId);
+			//쿼리문실행
+			//pstmt에 이제 완성된 쿼리를 가지고 있기때문에 파라미터없이 실행한다.
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()){
+				m = new Member();
+				m.setMemberId(rset.getString("member_id"));
+				m.setPassword(rset.getString("password"));
+				m.setMemberName(rset.getString("member_name"));
+				m.setMemberRole(rset.getNString("member_role"));
+				m.setGender(rset.getString("gender"));
+				m.setBirthday(rset.getDate("birthday"));
+				m.setEmail(rset.getString("email"));
+				m.setPhone(rset.getString("phone"));
+				m.setAddress(rset.getString("address"));
+				m.setHobby(rset.getString("hobby"));
+				m.setEnrollDate(rset.getDate("enroll_date"));
+			}
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			 
+				try {
+					if(rset != null) 
+						rset.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			
+				try {
+					if(pstmt != null) 
+						pstmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			
+		}
+		
+		return m;
+	}
+}

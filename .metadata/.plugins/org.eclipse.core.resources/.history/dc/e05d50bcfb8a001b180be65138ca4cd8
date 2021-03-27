@@ -1,0 +1,39 @@
+package com.kh.web.servlet;
+
+import java.io.IOException;
+import java.util.Arrays;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+/**
+ * Servlet
+ * webservice를 위한 java class
+ * HttpServlet을 상속해야함
+ * 
+ * 
+ *
+ */
+public class TestPerson1Servlet extends HttpServlet {
+	
+	@Override
+	public void doGet(HttpServletRequest request, HttpServletResponse response) 
+		throws IOException, ServletException{
+		//1. 사용자입력값 가져오기
+		String name = request.getParameter("name");
+		String color = request.getParameter("color");
+		String animal = request.getParameter("animal");
+		String[] foodArr = request.getParameterValues("food"); //여러값(String배열을 리턴)
+		
+		System.out.println("name = " + name);
+		System.out.println("color = " + color);
+		System.out.println("animal = " + animal);
+		System.out.println("foodArr = " + Arrays.toString(foodArr));
+		
+		
+	}
+	
+	
+}

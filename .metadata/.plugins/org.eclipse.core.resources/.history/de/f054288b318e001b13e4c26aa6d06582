@@ -1,0 +1,66 @@
+package member.model.dao;
+
+import java.io.FileReader;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.Properties;
+import static common.JDBCTemplate.*;
+
+import member.model.vo.Member;
+
+public class MemberDao {
+
+	private Properties prop = new Properties();
+	
+	
+	public MemberDao() {
+		String fileName = MemberDao.class.getResource("/sql/member/member-query.properties").getPath();
+		try {
+			prop.load(new FileReader(fileName));
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
+	
+	public Member selectOne(Connection conn, String memberId) {
+		Member member = null;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String query = prop.getProperty("selectOne");
+		
+		try{
+			//미완성쿼리문을 가지고 객체생성.
+			pstmt = conn.prepareStatement(query);
+			//미완성 쿼리문 값대입
+			pstmt.setString(1, memberId);
+			//쿼리문실행
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()){
+				member = new Member();
+				member.setMemberId(rset.getString("member_id"));
+				member.setPassword(rset.getString("password"));
+				member.setMemberName(rset.getString("member_name"));
+				member.setMemberRole(rset.getString("member_role"));
+				member.setGender(rset.getString("gender"));
+				member.setBirthday(rset.getDate("birthday"));
+				member.setEmail(rset.getString("email"));
+				member.setPhone(rset.getString("phone"));
+				member.setAddress(rset.getString("address"));
+				member.setHobby(rset.getString("hobby"));
+				member.setEnrollDate(rset.getDate("enroll_date"));
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally{
+			close(rset);
+			close(pstmt);
+		}
+		return member;
+
+	}
+}

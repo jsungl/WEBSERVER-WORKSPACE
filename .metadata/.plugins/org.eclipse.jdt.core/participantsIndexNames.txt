@@ -1,0 +1,17 @@
+INDEX VERSION 1.131
+C:\Workspaces\web_server_workspace\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\4069848692.index
+\01_helloweb\src
+C:\Workspaces\web_server_workspace\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\3058729043.index
+\02_hellomvc\src
+C:\Workspaces\web_server_workspace\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\800896931.index
+\01_helloweb\src
+C:\Workspaces\web_server_workspace\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\4498844.index
+\02_hellomvc\src
+C:\Workspaces\web_server_workspace\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\2188952250.index
+\02_hellomvc\src
+C:\Workspaces\web_server_workspace\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\1135105243.index
+\02_hellomvc\src
+C:\Workspaces\web_server_workspace\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\2504798133.index
+\02_hellomvc\src
+C:\Workspaces\web_server_workspace\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\4106916681.index
+\01_helloweb\src

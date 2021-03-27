@@ -1,0 +1,35 @@
+package common.listener;
+
+import javax.servlet.annotation.WebListener;
+import javax.servlet.http.HttpSessionEvent;
+import javax.servlet.http.HttpSessionListener;
+
+/**
+ * Application Lifecycle Listener implementation class SessionCounterListener
+ *
+ */
+@WebListener
+public class SessionCounterListener implements HttpSessionListener {
+
+    /**
+     * Default constructor. 
+     */
+    public SessionCounterListener() {
+        // TODO Auto-generated constructor stub
+    }
+
+	/**
+     * @see HttpSessionListener#sessionCreated(HttpSessionEvent)
+     */
+    public void sessionCreated(HttpSessionEvent se)  { 
+         // TODO Auto-generated method stub
+    }
+
+	/**
+     * @see HttpSessionListener#sessionDestroyed(HttpSessionEvent)
+     */
+    public void sessionDestroyed(HttpSessionEvent se)  { 
+         // TODO Auto-generated method stub
+    }
+	
+}
