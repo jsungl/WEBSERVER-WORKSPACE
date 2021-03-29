@@ -6,11 +6,12 @@
 	String msg = (String)session.getAttribute("msg");
 	if(msg != null)
 		session.removeAttribute("msg");
-	System.out.println("msg@header.jsp = " + msg);
+	//System.out.println("msg@header.jsp = " + msg);
 	
 	
 	String loc = (String)request.getAttribute("loc");
 	Member loginMember = (Member)session.getAttribute("loginMember");
+	System.out.println("loginMember@header.jsp = " + loginMember);
 	
 	//사용자 쿠키처리
 	String saveId = null;
@@ -19,7 +20,7 @@
 		for(Cookie c : cookies){
 			String name = c.getName();
 			String value = c.getValue();
-			System.out.println(name + " : " + value); //saveId : honggd
+			System.out.println(name + " : " + value); //saveId : honggd, JSESSIONID : 
 			if("saveId".equals(name))
 				saveId = value;
 		}
@@ -119,7 +120,7 @@ alert("<%= msg %>");
 					</tr>
 					<tr>
 						<td>
-							<input type="button" value="내정보보기" />
+							<input type="button" value="내정보보기" onclick="location.href='<%= request.getContextPath() %>/member/memberView';"/> <%-- get방식 --%> 
 							<input type="button" value="로그아웃" onclick="location.href='<%= request.getContextPath() %>/member/logout';"/>
 						</td>
 					</tr>

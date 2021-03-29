@@ -1,7 +1,0 @@
-package com.kh.web.servlet;
-
-import javax.servlet.http.HttpServlet;
-
-public class TestPerson2Servlet extends HttpServlet {
-
-}

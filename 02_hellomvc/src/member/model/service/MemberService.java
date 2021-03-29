@@ -38,6 +38,33 @@ public class MemberService {
 		return result;
 	}
 	
+	/**
+	 * 회원삭제
+	 */
+	public int deleteMember(String memberId) {
+		Connection conn = getConnection();
+		int result = memberDao.deleteMember(conn, memberId);
+		if(result > 0) 
+			commit(conn);
+		else 
+			rollback(conn);
+		close(conn);
+		return result;
+	}
+	
+	/**
+	 * 회원정보수정
+	 */
+	public int updateMember(Member m) {
+		Connection conn = getConnection();
+		int result = memberDao.updateMember(conn, m);
+		if(result > 0) 
+			commit(conn);
+		else 
+			rollback(conn);
+		close(conn);
+		return result;
+	}
 	
 
 }

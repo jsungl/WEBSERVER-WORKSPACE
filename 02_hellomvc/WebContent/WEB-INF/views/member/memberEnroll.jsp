@@ -2,6 +2,9 @@
 	pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
 
+<form name="checkIdDuplicateFrm">
+	<input type="hidden" name="memberId" />
+</form>
 
 <section id=enroll-container>
 	<h2>회원 가입 정보 입력</h2>
@@ -11,6 +14,9 @@
 				<th>아이디<sup>*</sup></th>
 				<td>
 					<input type="text" placeholder="4글자이상" name="memberId" id="memberId_" required>
+					<input type="button" value="중복검사" onclick="checkIdDuplicate();"/>
+					<input type="hidden" id="idValid" value="0" />
+					<%-- #idValid가 1이면 사용가능한 아이디이고 중복검사함, 0이면 중복검사전. (0이면 제출안되게) --%>
 				</td>
 			</tr>
 			<tr>
@@ -81,6 +87,44 @@
 </section>
 
 <script>
+
+/**
+ * 중복검사이후 다시 아이디를 변경하는것을 방지
+ */
+$("#memberId_").change(function(){
+	$("#idValid").val(0);
+});
+
+/**
+ * 아이디 중복 검사함수
+ * 팝업창으로 [name=checkIdDuplicateFrm]을 제출한다
+ * 현재 페이지에 머물면서 서버통신하기 위함.
+ */
+
+ function checkIdDuplicate() {
+	var $memberId = $("#memberId_");
+	if(/^[\w]{4,}$/.test($memberId.val()) == false){
+		alert("유효한 아이디를 입력하세요");
+		$memberId.select();
+		return;
+	}
+	
+	//1. 팝업생성
+	//popup window객체의 name속성 : checkIdDuplicatePopup
+	var title = "checkIdDuplicatePopup";
+	open("",title,"width=300px, height=200px, left=200px, top=200px");
+	
+	//2. 폼제출
+	$frm = $(document.checkIdDuplicateFrm);
+	$frm.find("[name=memberId]").val($memberId.val()); //checkIdDuplicateFrm의 memberId input태그에 사용자입력id세팅
+	$frm.attr("action", "<%= request.getContextPath() %>/member/checkIdDuplicate")
+		.attr("method", "POST")
+		.attr("target", title) //popup과 form을 연결
+		.submit();
+}
+
+
+
 /**
  * 회원가입 유효성 검사
  */
@@ -94,6 +138,16 @@
 			$memberId.select();
 			return false;
 		}
+		
+		var $idValid = $("#idValid");
+		if($idValid.val() == 0){
+			alert('아이디 중복검사 해주세요');
+			$idValid.prev().focus();
+			return false;
+		}
+		
+		
+		
 		//password
 		var $p1 = $("#password_");
 		var $p2 = $("#password2");

@@ -93,7 +93,7 @@ public class MemberEnrollServlet extends HttpServlet {
 			
 				
 				int result = memberService.insertMember(member);
-				System.out.println("result@Enrollservlet = " + result);
+				System.out.println("result@EnrollServlet = " + result);
 		
 		
 		

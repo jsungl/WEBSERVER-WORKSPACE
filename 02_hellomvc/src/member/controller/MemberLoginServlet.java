@@ -40,15 +40,15 @@ public class MemberLoginServlet extends HttpServlet {
 		String memberId = request.getParameter("memberId");
 		String password = request.getParameter("password");
 		String saveId = request.getParameter("saveId");
-		System.out.println("memberId@servlet = " + memberId);
-		System.out.println("password@servlet = " + password);
+		//System.out.println("memberId@servlet = " + memberId);
+		//System.out.println("password@servlet = " + password);
 		System.out.println("saveId@servlet = " + saveId); //on
 		
 		
 		//3. 업무로직 : memberId로 회원객체를 조회 
 		//servlet이 처리해야할 업무로직 ->service에 맡긴다
 		Member member = memberService.selectOne(memberId);
-		System.out.println("member@servlet = " + member);
+		//System.out.println("member@servlet = " + member);
 		
 		
 		
