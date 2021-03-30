@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import common.MvcUtils;
 import member.model.service.MemberService;
 import member.model.vo.Member;
 
@@ -37,12 +38,12 @@ public class MemberEnrollServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 				//1. encoding처리
-				request.setCharacterEncoding("utf-8");
+				//request.setCharacterEncoding("utf-8");
 				
 				
 				//2. 사용자입력값처리
 				String memberId = request.getParameter("memberId");
-				String password = request.getParameter("password");
+				String password = MvcUtils.getSha512(request.getParameter("password")); //리턴된 hash값(인코딩된값)을 db에 저장
 				String memberName = request.getParameter("memberName");
 				String birthday = request.getParameter("birthday");
 				Date bday = null;
@@ -63,15 +64,15 @@ public class MemberEnrollServlet extends HttpServlet {
 				
 				
 				
-				System.out.println("memberId@Enrollservlet = " + memberId);
-				System.out.println("password@Enrollservlet = " + password);
-				System.out.println("memberName@Enrollservlet = " + memberName);
-				System.out.println("birthday@Enrollservlet = " + bday);
-				System.out.println("email@Enrollservlet = " + email);
-				System.out.println("phone@Enrollservlet = " + phone);
-				System.out.println("address@Enrollservlet = " + address);
-				System.out.println("gender@Enrollservlet = " + gender);
-				System.out.println("hobby@Enrollservlet = " + hobbies);  
+//				System.out.println("memberId@Enrollservlet = " + memberId);
+//				System.out.println("password@Enrollservlet = " + password);
+//				System.out.println("memberName@Enrollservlet = " + memberName);
+//				System.out.println("birthday@Enrollservlet = " + bday);
+//				System.out.println("email@Enrollservlet = " + email);
+//				System.out.println("phone@Enrollservlet = " + phone);
+//				System.out.println("address@Enrollservlet = " + address);
+//				System.out.println("gender@Enrollservlet = " + gender);
+//				System.out.println("hobby@Enrollservlet = " + hobbies);  
 				
 				
 				

@@ -24,7 +24,7 @@ public class MemberDeleteServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		request.setCharacterEncoding("utf-8");
+		//request.setCharacterEncoding("utf-8");
 		
 		String memberId = request.getParameter("memberId");
 		//System.out.println("memberId@DeleteServlet = " + memberId);
@@ -40,7 +40,7 @@ public class MemberDeleteServlet extends HttpServlet {
 		if(result > 0) {
 			//탈퇴 성공
 			//session.invalidate(); 
-			session.setAttribute("msg", "탈퇴를 성공하셨습니다");
+			//session.setAttribute("msg", "탈퇴를 성공하셨습니다");
 			response.sendRedirect(request.getContextPath() + "/member/logout");
 		}else {
 			//탈퇴 실패

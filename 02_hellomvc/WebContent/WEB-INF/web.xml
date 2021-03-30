@@ -10,4 +10,14 @@
   <session-config>
   	<session-timeout>30</session-timeout>
   </session-config>
+  
+  <!-- web.xml에 등록하면 Filter 모아보기가 가능하다 -->
+  <filter>
+  	<filter-name>LoggerFilter</filter-name>
+  	<filter-class>common.filter.LoggerFilter</filter-class>
+  </filter>
+  <filter-mapping>
+  	<filter-name>LoggerFilter</filter-name>
+  	<url-pattern>/*</url-pattern>
+  </filter-mapping>
 </web-app>

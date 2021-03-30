@@ -7,7 +7,7 @@
 
 <%
 	String memberId = loginMember.getMemberId();
-	String password = loginMember.getPassword();
+	//String password = loginMember.getPassword();
 	String memberName = loginMember.getMemberName();
 	Date birthday = loginMember.getBirthday();
 	String email = loginMember.getEmail() != null ? loginMember.getEmail() : ""; //필수값이 아닌것들 처리
@@ -39,7 +39,7 @@
 					<input type="text" name="memberId" id="memberId_" value="<%= memberId %>" readonly>
 				</td>
 			</tr>
-			<tr>
+			<%-- <tr>
 				<th>패스워드</th>
 				<td>
 					<input type="password" name="password" id="password_" value="<%= password %>" required>
@@ -50,7 +50,7 @@
 				<td>	
 					<input type="password" id="password2" value="<%= password %>" required><br>
 				</td>
-			</tr> 
+			</tr>  --%>
 			<tr>
 				<th>이름</th>
 				<td>	
@@ -104,15 +104,23 @@
 			</tr>
 		</table>
         <input type="button" onclick="updateMember();" value="정보수정"/>
+        <input type="button" onclick="updatePassword();" value="비밀번호변경"/>        
         <input type="button" onclick="deleteMember();" value="탈퇴"/>
 	</form>
 </section>
 <script>
+
+	function updatePassword() {
+		location.href = "<%= request.getContextPath()%>/member/updatePassword";
+	}
+
+
+
 	function updateMember() {
 		
 		
 		//password
-		var $p1 = $("#password_");
+		/* var $p1 = $("#password_");
 		var $p2 = $("#password2");
 		if(/^[a-zA-Z0-9!@#$$%^&*()]{4,}/.test($p1.val()) == false){
 			alert("유효한 패스워드를 입력하세요.");
@@ -123,7 +131,7 @@
 			alert("패스워드가 일치하지 않습니다.");
 			$p1.select();
 			return false;
-		}
+		} */
 		
 		//memberName
 		var $memberName = $("#memberName");
@@ -164,11 +172,14 @@
 	}
 
 	function deleteMember() {
-		
-		$frm = $(document.deleteMemberFrm); 
-		$frm.attr("action", "<%= request.getContextPath() %>/member/memberDelete")
-			.attr("method", "POST")
-			.submit();
+		if(confirm("정말 탈퇴하시겠습니까?")){
+			
+			$frm = $(document.deleteMemberFrm); 
+			$frm.attr("action", "<%= request.getContextPath() %>/member/memberDelete")
+				.attr("method", "POST")
+				.submit();
+			
+		}
 		
 	}
 

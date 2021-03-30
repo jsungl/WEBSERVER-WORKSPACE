@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import common.MvcUtils;
 import member.model.service.MemberService;
 import member.model.vo.Member;
 
@@ -33,12 +34,12 @@ public class MemberLoginServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//1. encoding처리
-		request.setCharacterEncoding("utf-8");
+		//request.setCharacterEncoding("utf-8");
 		
 		
 		//2. 사용자입력값처리
 		String memberId = request.getParameter("memberId");
-		String password = request.getParameter("password");
+		String password = MvcUtils.getSha512(request.getParameter("password")); //단방향암호화라 로그인시 입력한 패스워드를 인코딩처리해서 db에 저장된 값과 비교
 		String saveId = request.getParameter("saveId");
 		//System.out.println("memberId@servlet = " + memberId);
 		//System.out.println("password@servlet = " + password);

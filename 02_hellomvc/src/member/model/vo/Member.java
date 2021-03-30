@@ -131,6 +131,7 @@ public class Member implements HttpSessionBindingListener{
 		
 	}
 	
+	
 	/**
 	 * Session객체에 현재객체가 속성에서 해제될때 호출되는 event listener
 	 * Session이 무효화될때도 호출
@@ -139,7 +140,6 @@ public class Member implements HttpSessionBindingListener{
 	public void valueUnbound(HttpSessionBindingEvent event) {
 		System.out.println(memberName + "[" + memberId + "]님이 로그아웃했습니다");
 	}
-	
 	
 	
 	

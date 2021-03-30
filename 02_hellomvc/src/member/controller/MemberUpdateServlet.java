@@ -26,11 +26,11 @@ public class MemberUpdateServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		request.setCharacterEncoding("utf-8");
+		//request.setCharacterEncoding("utf-8");
 		
 		//2. 사용자입력값처리
 		String memberId = request.getParameter("memberId");
-		String password = request.getParameter("password");
+//		String password = request.getParameter("password");
 		String memberName = request.getParameter("memberName");
 //		String memberRole = request.getParameter("memberRole");
 		String birthday = request.getParameter("birthday");
@@ -59,7 +59,7 @@ public class MemberUpdateServlet extends HttpServlet {
 //		System.out.println("memberRole@Servlet = " + memberRole);
 		
 		
-		Member member = new Member(memberId,password,memberName,null,gender,bday,email,phone,address,hobbies,null);
+		Member member = new Member(memberId,null,memberName,null,gender,bday,email,phone,address,hobbies,null);
 		
 		int result = memberService.updateMember(member);
 		//System.out.println("result@UpdateServlet = " + result);
@@ -71,7 +71,8 @@ public class MemberUpdateServlet extends HttpServlet {
 		if(result > 0) {
 			//정보수정 성공
 			session.setAttribute("msg", "회원정보 수정에 성공하셨습니다");
-			session.setAttribute("loginMember", memberService.selectOne(memberId));
+			//세션의 정보도 갱신
+			session.setAttribute("loginMember", memberService.selectOne(memberId)); 
 		}else {
 			//정보수정 실패
 			session.setAttribute("msg", "회원정보 수정에 실패하셨습니다");
