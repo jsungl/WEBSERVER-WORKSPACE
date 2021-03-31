@@ -1,0 +1,94 @@
+<%@page import="java.util.List"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ include file="/WEB-INF/views/common/header.jsp" %>
+<%
+	List<Member> list = (List<Member>)request.getAttribute("list");
+
+
+%>
+
+<!-- 관리자용 admin.css link -->
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/admin.css" />
+<section id="memberList-container">
+	<h2>회원관리</h2>
+	
+	<table id="tbl-member">
+		<thead>
+			<tr>
+				<th>아이디</th>
+				<th>이름</th>
+				<th>회원권한</th>
+				<th>성별</th>
+				<th>생년월일</th>
+				<th>이메일</th>
+				<th>전화번호</th>
+				<th>주소</th>
+				<th>취미</th>
+				<th>가입일</th>
+			</tr>
+		</thead>
+		<tbody>
+		<% if(list == null || list.isEmpty()) { %>
+			<tr>
+				<td colspan="10" style="text-align:center;">조회된 회원이 없습니다. </td>
+			</tr>
+		<% } else {
+				for(Member m : list){
+					
+		%>
+			<tr>
+				<td><%= m.getMemberId() %></td>
+				<td><%= m.getMemberName() %></td>
+				<td>
+					<select class="member-role" data-member-id="<%= m.getMemberId() %>">
+						<option value="<%= MemberService.ADMIN_ROLE %>" 
+						<%= MemberService.ADMIN_ROLE.equals(m.getMemberRole()) ? "selected" : "" %>>관리자</option>
+						<option value="<%= MemberService.MEMBER_ROLE %>"
+						<%= MemberService.MEMBER_ROLE.equals(m.getMemberRole()) ? "selected" : "" %>>일반</option>
+					</select>
+					
+				</td>
+				<td><%= "M".equals(m.getGender()) ? "남" : "여" %></td>
+				<td><%= m.getBirthday() != null ? m.getBirthday() : "" %></td>
+				<td><%= m.getEmail() != null ? m.getEmail() : ""%></td>
+				<td><%= m.getPhone() %></td>
+				<td><%= m.getAddress() != null ? m.getAddress() : ""%></td>
+				<td><%= m.getHobby() != null ? m.getHobby() : ""%></td>
+				<td><%= m.getEnrollDate() %></td>
+			</tr>
+		<% 
+				}
+		
+			} 
+		
+		%>
+		</tbody>
+	</table>
+</section>
+<form action="<%= request.getContextPath() %>/admin/memberRoleUpdate" name="memberRoleUpdateFrm" method="POST">
+	<input type="hidden" name="memberId" />
+	<input type="hidden" name="memberRole" />
+
+</form>
+<script>
+	
+	$(".member-role").on("change",function(){
+		/* alert($(this).val()); */
+		var memberId = $(this).data("memberId");
+		var memberRole = $(this).val();
+		/* alert(memberId + " : " + memberRole); */
+		var memberRoleStr = 
+					memberRole == "<%= MemberService.ADMIN_ROLE %>" ? "관리자" : "일반";
+		if(confirm("[" + memberId + "] 회원의 권한을 [" + memberRoleStr + "]로 변경하시겠습니까?")){
+			var $frm = $(document.memberRoleUpdateFrm);
+			$frm.find("[name=memberId]").val(memberId);
+			$frm.find("[name=memberRole]").val(memberRole);
+			$frm.submit();
+		}else {
+			return;
+		}
+	});
+	
+</script>
+<%@ include file="/WEB-INF/views/common/footer.jsp" %>

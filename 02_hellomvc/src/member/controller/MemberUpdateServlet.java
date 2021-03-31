@@ -32,7 +32,6 @@ public class MemberUpdateServlet extends HttpServlet {
 		String memberId = request.getParameter("memberId");
 //		String password = request.getParameter("password");
 		String memberName = request.getParameter("memberName");
-//		String memberRole = request.getParameter("memberRole");
 		String birthday = request.getParameter("birthday");
 		Date bday = null;
 		if(birthday != null && !"".equals(birthday))
@@ -45,18 +44,6 @@ public class MemberUpdateServlet extends HttpServlet {
 		String hobbies = "";
 		if(hobby != null)
 			hobbies = String.join(",", hobby); 
-				
-		
-//		System.out.println("memberId@UpdateServlet = " + memberId);
-//		System.out.println("password@UpdateServlet = " + password);
-//		System.out.println("memberName@UpdateServlet = " + memberName);
-//		System.out.println("birthday@UpdateServlet = " + bday);
-//		System.out.println("email@UpdateServlet = " + email);
-//		System.out.println("phone@UpdateServlet = " + phone);
-//		System.out.println("address@UpdateServlet = " + address);
-//		System.out.println("gender@UpdateServlet = " + gender);
-//		System.out.println("hobby@UpdateServlet = " + hobbies);  
-//		System.out.println("memberRole@Servlet = " + memberRole);
 		
 		
 		Member member = new Member(memberId,null,memberName,null,gender,bday,email,phone,address,hobbies,null);

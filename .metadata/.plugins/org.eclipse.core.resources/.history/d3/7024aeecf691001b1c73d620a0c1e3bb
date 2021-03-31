@@ -1,0 +1,188 @@
+package member.model.dao;
+
+import java.io.FileReader;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Properties;
+import static common.JDBCTemplate.*;
+
+import member.model.service.MemberService;
+import member.model.vo.Member;
+
+public class MemberDao {
+
+	private Properties prop = new Properties();
+	
+	
+	public MemberDao() {
+		String fileName = MemberDao.class.getResource("/sql/member/member-query.properties").getPath();
+		try {
+			prop.load(new FileReader(fileName));
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
+	
+	public Member selectOne(Connection conn, String memberId) {
+		Member member = null;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String query = prop.getProperty("selectOne");
+		
+		try{
+			//미완성쿼리문을 가지고 객체생성.
+			pstmt = conn.prepareStatement(query);
+			//미완성 쿼리문 값대입
+			pstmt.setString(1, memberId);
+			//쿼리문실행
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()){
+				member = new Member();
+				member.setMemberId(rset.getString("member_id"));
+				member.setPassword(rset.getString("password"));
+				member.setMemberName(rset.getString("member_name"));
+				member.setMemberRole(rset.getString("member_role"));
+				member.setGender(rset.getString("gender"));
+				member.setBirthday(rset.getDate("birthday"));
+				member.setEmail(rset.getString("email"));
+				member.setPhone(rset.getString("phone"));
+				member.setAddress(rset.getString("address"));
+				member.setHobby(rset.getString("hobby"));
+				member.setEnrollDate(rset.getDate("enroll_date"));
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally{
+			close(rset);
+			close(pstmt);
+		}
+		return member;
+
+	}
+	
+	
+	
+	/**
+	 * 회원추가
+	 */
+	public int insertMember(Connection conn, Member m) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String query = prop.getProperty("insertMember");
+		
+		try {
+			//PreparedStatment객체 생성, 미완성 쿼리 값대입
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1,m.getMemberId());
+			pstmt.setString(2,m.getPassword());
+			pstmt.setString(3,m.getMemberName());
+			pstmt.setString(4,m.getMemberRole()); //상수 MemberRole,기본값 U
+			pstmt.setString(5,m.getGender());
+			pstmt.setDate(6,m.getBirthday());
+			pstmt.setString(7,m.getEmail());
+			pstmt.setString(8,m.getPhone());
+			pstmt.setString(9,m.getAddress());
+			pstmt.setString(10,m.getHobby());
+			
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+	
+	/**
+	 * 회원삭제
+	 */
+	public int deleteMember(Connection conn, String memberId) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		
+		String query = prop.getProperty("deleteMember");
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, memberId);
+			result = pstmt.executeUpdate();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+	
+	
+	/**
+	 * 회원정보 수정
+	 */
+	public int updateMember(Connection conn, Member m) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		
+		String query = prop.getProperty("updateMember");
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, m.getMemberName());
+			pstmt.setDate(2, m.getBirthday());
+			pstmt.setString(3, m.getEmail());
+			pstmt.setString(4, m.getPhone());
+			pstmt.setString(5, m.getAddress());
+			pstmt.setString(6, m.getGender());
+			pstmt.setString(7, m.getHobby());
+			pstmt.setString(8, m.getMemberId());
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+	
+	/**
+	 * 비밀번호 변경
+	 */
+	public int updatePassword(Connection conn, Member member) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String query = prop.getProperty("updatePassword");
+
+		try {
+			// 미완성쿼리문을 가지고 객체생성.
+			pstmt = conn.prepareStatement(query);
+			// 쿼리문미완성
+			pstmt.setString(1, member.getPassword());
+			pstmt.setString(2, member.getMemberId());
+
+			// 쿼리문실행 : 완성된 쿼리를 가지고 있는 pstmt실행(파라미터 없음)
+			// DML은 executeUpdate()
+			result = pstmt.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+
+		return result;
+	}
+	
+	
+}

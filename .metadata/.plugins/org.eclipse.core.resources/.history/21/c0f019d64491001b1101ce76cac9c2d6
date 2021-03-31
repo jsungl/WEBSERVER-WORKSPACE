@@ -1,0 +1,11 @@
+package common;
+
+public class MvcUtils {
+
+	public static String getSha512(String password) {
+		String encryptedPassword = null;
+		
+		return encryptedPassword;
+	}
+
+}

@@ -1,6 +1,9 @@
 package member.model.service;
 
 import java.sql.Connection;
+import java.util.List;
+import java.util.Map;
+
 import static common.JDBCTemplate.*;
 
 import member.model.dao.MemberDao;
@@ -64,6 +67,54 @@ public class MemberService {
 			rollback(conn);
 		close(conn);
 		return result;
+	}
+	
+	/**
+	 * 비밀번호 변경
+	 */
+	public int updatePassword(Member member) {
+		Connection conn = getConnection();
+		int result = memberDao.updatePassword(conn, member);
+		if(result>0)
+			commit(conn);
+		else 
+			rollback(conn);
+		close(conn);
+		return result;
+	}
+
+	/**
+	 * 회원전체조회
+	 */
+	public List<Member> selectAll() {
+		Connection conn = getConnection();
+		List<Member> list = memberDao.selectAll(conn);
+		close(conn);
+		return list;
+	}
+
+	/**
+	 * 회원권한 변경
+	 */
+	public int updateMemberRole(Member member) {
+		Connection conn = getConnection();
+		int result = memberDao.updateMemberRole(conn, member);
+		if(result>0)
+			commit(conn);
+		else 
+			rollback(conn);
+		close(conn);
+		return result;
+	}
+
+	/**
+	 * 회원검색
+	 */
+	public List<Member> searchMember(Map<String, String> param) {
+		Connection conn = getConnection();
+		List<Member> list = memberDao.searchMember(conn, param);
+		close(conn);
+		return list;
 	}
 	
 

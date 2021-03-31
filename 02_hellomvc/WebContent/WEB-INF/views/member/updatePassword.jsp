@@ -36,7 +36,7 @@
 	
 	<script>
 		$(document.updatePwdFrm).submit(function(){
-		
+			var $p0 = $("#password");
 			var $p1 = $("#newPassword");
 			var $p2 = $("#passwordCheck");
 			if(/^[a-zA-Z0-9!@#$$%^&*()]{4,}/.test($p1.val()) == false){
@@ -51,9 +51,29 @@
 				return false;
 			}
 			
+			if($p0.val() == $p1.val()){
+				alert("기존비밀번호와 신규비밀번호는 같을 수 없습니다.");
+				$p1.select();
+				return false;
+			}
+			
 			return true;
 			
 		});
+		
+		//신규비밀번호 일치 검사
+		/* $("#passwordCheck").blur(passwordValidate); 포커스를 잃었을때(탭으로 이동시) 검사
+
+		function passwordValidate(){
+			var $newPassword = $("#newPassword");
+			var $newPasswordCheck = $("#passwordCheck");
+			if($newPassword.val() != $newPasswordCheck.val()){
+				alert("입력한 비밀번호가 일치하지 않습니다.");
+				$newPassword.select();
+				return false;
+			}
+			return true;	
+		} */
 	
 	</script>
 	

@@ -48,7 +48,7 @@ public class UpdatePasswordServlet extends HttpServlet {
 			System.out.println("비밀번호 일치");
 			//3. 업무로직 : 기존비밀번호가 일치한 경우만 신규비밀번호로 업데이트한다.
 			member.setPassword(newPassword);
-			result = memberService.updateMember(member);
+			result = memberService.updatePassword(member);
 			
 		}else {
 			System.out.println("비밀번호 불일치");

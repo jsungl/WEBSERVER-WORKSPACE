@@ -1,0 +1,31 @@
+package admin.controller;
+
+import java.io.IOException;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+/**
+ * Servlet implementation class AdminMemberFinderServlet
+ */
+@WebServlet("/admin/memberFinder")
+public class AdminMemberFinderServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		//1. 사용자 입력값 처리
+		
+		//2. 업무로직
+		
+		
+		//3. jsp에 html응답메세지 작성위임
+		
+		
+	}
+
+}

@@ -1,3 +1,4 @@
+<%@page import="member.model.service.MemberService"%>
 <%@page import="member.model.vo.Member"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -137,6 +138,10 @@ alert("<%= msg %>");
 					<li class="home"><a href="<%= request.getContextPath() %>">Home</a></li>
 					<li class="notice"><a href="#">공지사항</a></li>
 					<li class="board"><a href="#">게시판</a></li>
+					<%-- 관리자로그인시에만 관리자메뉴(회원관리) 노출 --%>
+					<% if(loginMember != null && MemberService.ADMIN_ROLE.equals(loginMember.getMemberRole())) {  %>
+					<li class="members"><a href="<%= request.getContextPath() %>/admin/memberList">회원관리</a></li>
+					<% } %>
 				</ul>
 			</nav>
 			<!-- 메인메뉴 끝-->
