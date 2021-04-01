@@ -53,7 +53,8 @@ values (
 
 commit;
 
-select * from member;
+select * from member where member_role='A';
+
 
 
 update member

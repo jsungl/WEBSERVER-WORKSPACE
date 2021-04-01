@@ -12,14 +12,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import member.model.service.MemberService;
 import member.model.vo.Member;
 
 /**
  * Servlet Filter implementation class AdminFilter
  */
-//@WebFilter({ "/admin/memberList", "/admin/memberFinder","/admin/memberRoleUpdate" })
-@WebFilter("/admin/*")
+@WebFilter({ "/admin/memberList", "/admin/memberFinder","/admin/memberRoleUpdate" })
 public class AdminFilter implements Filter {
 
     
@@ -37,7 +35,7 @@ public class AdminFilter implements Filter {
 			session.setAttribute("msg", "로그인후 사용할수있습니다.");
 			httpRes.sendRedirect(httpReq.getContextPath());
 			return; //servlet을 실행하지않는다
-		}else if(!MemberService.ADMIN_ROLE.equals(loginMember.getMemberRole())) {
+		}else if(!"A".equals(loginMember.getMemberRole())) {
 			session.setAttribute("msg", "관리자 계정이 아닙니다.");
 			httpRes.sendRedirect(httpReq.getContextPath());
 			return;

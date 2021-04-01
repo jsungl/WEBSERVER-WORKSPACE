@@ -29,9 +29,9 @@ public class AdminMemberListServlet extends HttpServlet {
 		//1. 업무로직 : 전체회원조회 - 회원가입일 내림차순으로 조회
 		//List<Member> list = new AdminService().selectList();
 		List<Member> list = memberService.selectAll();
-//		for(Member m : list) {
-//			System.out.println("list@servlet = " + m);
-//		}
+		for(Member m : list) {
+			System.out.println("list@servlet = " + m);
+		}
 		//System.out.println("list@servlet = " + list);
 		
 		
