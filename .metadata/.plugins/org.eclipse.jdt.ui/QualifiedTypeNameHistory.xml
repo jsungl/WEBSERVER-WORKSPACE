@@ -16,11 +16,11 @@
 <fullyQualifiedTypeName name="javax.servlet.Filter"/>
 <fullyQualifiedTypeName name="java.security.MessageDigest"/>
 <fullyQualifiedTypeName name="java.util.Base64"/>
-<fullyQualifiedTypeName name="common.MvcUtils"/>
 <fullyQualifiedTypeName name="java.util.ArrayList"/>
 <fullyQualifiedTypeName name="java.sql.Date"/>
-<fullyQualifiedTypeName name="member.model.service.MemberService"/>
 <fullyQualifiedTypeName name="java.util.Map"/>
 <fullyQualifiedTypeName name="java.util.List"/>
 <fullyQualifiedTypeName name="member.model.vo.Member"/>
+<fullyQualifiedTypeName name="member.model.service.MemberService"/>
+<fullyQualifiedTypeName name="common.MvcUtils"/>
 </qualifiedTypeNameHistroy>

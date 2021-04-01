@@ -12,7 +12,7 @@
 	
 	String loc = (String)request.getAttribute("loc");
 	Member loginMember = (Member)session.getAttribute("loginMember");
-	System.out.println("loginMember@header.jsp = " + loginMember);
+	//System.out.println("loginMember@header.jsp = " + loginMember);
 	
 	//사용자 쿠키처리
 	String saveId = null;

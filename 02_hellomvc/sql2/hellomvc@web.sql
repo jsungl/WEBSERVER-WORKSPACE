@@ -54,6 +54,7 @@ values (
 commit;
 
 select * from member where member_role='A';
+select * from member where member_name like '%정%';
 
 
 
@@ -63,12 +64,42 @@ set password = '1ARVn2Auq2/WAqx2gNrL+q3RNjAzXpUfCXrzkA6d4Xa22yhRLy4AC50E+6UTPosc
 
 
 
+--페이징
+--1. rownum 행추가시 자동으로 부여되는 no
+--inline-view로 
+select *
+from (
+    select rownum rnum, M.*
+    from (
+            select M.*
+            from member M
+            order by enroll_date desc
+        ) M
+) M
+where rnum between 11 and 20;
+
+
+-- 2. window함수 row_number
+-- cPage = 1 : 1 ~ 10
+-- cPage = 2 : 11 ~ 20
+-- cPage = 3 : 21 ~ 30
+-- cPage = 4 : 31 ~ 40
+-- cPage = 5 : 41 ~ 50
+-- ....
+-- cPage = 12 : 111 ~ 120
+select * from ( select row_number() over(order by enroll_date desc) rnum, M.* from member M where member_name like '%정%' ) M where rnum between ? and ?;
+select count(*) cnt from member where member_name like '%정%';
 
 
 
 
-
-
+select *
+from (
+    select row_number() over(order by enroll_date desc) rnum, 
+            M.*
+    from member M
+) M
+where rnum between 1 and 10;
 
 
 

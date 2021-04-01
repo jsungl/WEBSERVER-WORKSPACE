@@ -52,4 +52,68 @@ public class MvcUtils {
 		return encryptedPassword;
 	}
 
+	
+	
+	/**
+	 *  1. totalContents : 총 컨텐츠 수
+	 * 	2. totalPage : 전체페이지수(totalContents와 numPerPage를 통해 구한다)
+	 * 	3. pageBarSize : 페이지바에 표시할 페이지 개수 ex) < 1 2 3 4 5 >
+	 * 	4. pageNo : 페이지넘버를  출력할 증감변수
+	 *	5. pageStart ~ pageEnd : pageNo의 범위 
+	 */
+	public static String getPageBar(int cPage, int numPerPage, int totalContents, String url) {
+		StringBuilder pageBar = new StringBuilder();
+		int totalPage = (int)Math.ceil((double)totalContents / numPerPage); //12
+		int pageBarSize = 5;
+		//System.out.println("urlIndexof@MvcUtils = " + url.indexOf("?")); 
+		//cPage이외의 다른 사용자입력값이 있는경우대비 (/mvc/admin/memberFinder?type=id&kw=abc&cPage=  )
+		url = (url.indexOf("?") > -1) ? url + "&" : url + "?";
+		
+		
+		/**
+		 * 1 2 3 4 5 ---> 1
+		 * 6 7 8 9 10 ---> 6
+		 * 11 12 13 14 15 ---> 11
+		 */
+		
+		
+		int pageStart = ((cPage - 1) / pageBarSize) * pageBarSize + 1; // 1 6 11
+		int pageEnd = pageStart + pageBarSize - 1;// 5 10 15
+		
+		//증감변수는 pageStart부터 시작
+		int pageNo = pageStart;
+		
+		//1. 이전
+		if(pageNo == 1) {
+
+		}else {
+			//pageNo가 6또는 11인경우
+			pageBar.append("<a href='" + url + "cPage=" + (pageNo - 1) +  "'/>prev</a>\n");
+		}
+		//2. pageNo
+		while(pageNo <= pageEnd && pageNo <= totalPage) {
+			if(pageNo == cPage) {
+				//pageNo가 현재페이지와 같다면 링크만들필요없음(현재페이지인경우)
+				pageBar.append("<span class='cPage'>" + pageNo + "</span>\n");
+			}else {
+				pageBar.append("<a href='" + url + "cPage=" + pageNo +  "'/>" + pageNo +  "</a>\n");
+			}
+			
+			pageNo++;
+		}
+		
+		
+		//3. 다음
+		if(pageNo > totalPage) {
+			//마지막페이지가 포함된 페이지바인 경우
+			//마지막페이지인경우 
+			
+		}else {
+			pageBar.append("<a href='" + url + "cPage=" + pageNo +  "'/>next</a>\n");
+		}
+		
+		
+		return pageBar.toString();
+	}
+
 }

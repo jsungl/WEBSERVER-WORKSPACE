@@ -233,6 +233,55 @@ public class MemberDao {
 		
 		return list;
 	}
+	
+	
+	/**
+	 * 회원전체조회 paging
+	 */
+	public List<Member> selectAll(Connection conn, int start, int end) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String query = prop.getProperty("selectPagedList");
+		List<Member> list = null;
+		
+		try {
+			//3. PreparedStatement객체 생성(미완성쿼리)
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1,start);
+			pstmt.setInt(2, end);
+			//3.1 ? 값대입
+			
+			//4. 실행 : DML(executeUpdate) -> int, DQL(executeQuery) -> ResultSet
+			rset = pstmt.executeQuery();
+			//4.1 ResultSet -> Java객체 옮겨담기
+			list = new ArrayList<>();
+			while(rset.next()) {
+				String memberId = rset.getString("member_id");
+				String password = rset.getString("password");
+				String memberName = rset.getString("member_name");
+				String memberRole = rset.getString("member_role");
+				String gender = rset.getString("gender");
+				Date birthday = rset.getDate("birthday");
+				String email = rset.getString("email");
+				String phone = rset.getString("phone");
+				String address = rset.getString("address");
+				String hobby = rset.getString("hobby");
+				Date enrollDate = rset.getDate("enroll_date");
+				Member member = new Member(memberId, password, memberName,memberRole, gender, birthday, email, phone, address, hobby, enrollDate);
+				list.add(member);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			//5. 자원반납(생성역순 rset - pstmt)
+			close(rset);
+			close(pstmt);
+		}
+		
+		return list;
+	}
+	
 
 
 	/**
@@ -279,14 +328,66 @@ public class MemberDao {
 		case "gender" : query += " gender = '" + param.get("searchKeyword") + "'";break;
 			
 		}
-		//select * from member where member_id like %a%
-		//select * from member where member_name like %동%
-		//select * from member where gender = 'M'
-		System.out.println("query@Dao = " + query);
+		//System.out.println("query@Dao = " + query);
 		
 		try {
 			//3. PreparedStatement객체 생성(미완성쿼리)
 			pstmt = conn.prepareStatement(query);
+			
+			//4. 실행 : DML(executeUpdate) -> int, DQL(executeQuery) -> ResultSet
+			rset = pstmt.executeQuery();
+			//4.1 ResultSet -> Java객체 옮겨담기
+			list = new ArrayList<>();
+			while(rset.next()) {
+				String memberId = rset.getString("member_id");
+				String password = rset.getString("password");
+				String memberName = rset.getString("member_name");
+				String memberRole = rset.getString("member_role");
+				String gender = rset.getString("gender");
+				Date birthday = rset.getDate("birthday");
+				String email = rset.getString("email");
+				String phone = rset.getString("phone");
+				String address = rset.getString("address");
+				String hobby = rset.getString("hobby");
+				Date enrollDate = rset.getDate("enroll_date");
+				Member member = new Member(memberId, password, memberName,memberRole, gender, birthday, email, phone, address, hobby, enrollDate);
+				list.add(member);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			//5. 자원반납(생성역순 rset - pstmt)
+			close(rset);
+			close(pstmt);
+		}
+		
+		return list;
+	}
+
+	
+	/**
+	 * 회원검색 paging
+	 */
+	public List<Member> searchMember(Connection conn, Map<String, String> param, int start, int end) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		List<Member> list = null;
+		
+		String query = prop.getProperty("searchMemberList");
+		switch(param.get("searchType")) {
+		case "memberId" : query += " member_id like '%" + param.get("searchKeyword") + "%'";break;
+		case "memberName" : query += " member_name like '%" + param.get("searchKeyword") + "%'";break;
+		case "gender" : query += " gender = '" + param.get("searchKeyword") + "'";break;
+			
+		}
+		query += ") M where rnum between ? and ?";
+		
+		try {
+			//3. PreparedStatement객체 생성(미완성쿼리)
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, start);
+			pstmt.setInt(2, end);
 			//3.1 ? 값대입
 			
 			//4. 실행 : DML(executeUpdate) -> int, DQL(executeQuery) -> ResultSet
@@ -319,6 +420,82 @@ public class MemberDao {
 		
 		return list;
 	}
+	
+
+
+	/**
+	 * 전체회원수 조회
+	 */
+	public int selectMemberCount(Connection conn) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		int totalContents = 0;
+		
+		String query = prop.getProperty("selectMemberCount");
+		try {
+			//3. PreparedStatement객체 생성(미완성쿼리)
+			pstmt = conn.prepareStatement(query);
+			//3.1 ? 값대입
+			
+			//4. 실행 : DML(executeUpdate) -> int, DQL(executeQuery) -> ResultSet
+			rset = pstmt.executeQuery();
+			//4.1 ResultSet -> Java객체 옮겨담기
+			if(rset.next()) {
+				totalContents = rset.getInt("cnt");
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			//5. 자원반납(생성역순 rset - pstmt)
+			close(rset);
+			close(pstmt);
+		}
+		
+		return totalContents;
+	}
+
+
+	/**
+	 * 검색된 전체회원수 조회
+	 */
+	public int searchMemberCount(Connection conn,Map<String, String> param) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		int totalContents = 0;
+		
+		String query = prop.getProperty("searchMemberCount");
+		switch(param.get("searchType")) {
+		case "memberId" : query += " member_id like '%" + param.get("searchKeyword") + "%'";break;
+		case "memberName" : query += " member_name like '%" + param.get("searchKeyword") + "%'";break;
+		case "gender" : query += " gender = '" + param.get("searchKeyword") + "'";break;
+			
+		}
+		try {
+			//3. PreparedStatement객체 생성(미완성쿼리)
+			pstmt = conn.prepareStatement(query);
+			//3.1 ? 값대입
+			
+			//4. 실행 : DML(executeUpdate) -> int, DQL(executeQuery) -> ResultSet
+			rset = pstmt.executeQuery();
+			//4.1 ResultSet -> Java객체 옮겨담기
+			if(rset.next()) {
+				totalContents = rset.getInt("cnt");
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			//5. 자원반납(생성역순 rset - pstmt)
+			close(rset);
+			close(pstmt);
+		}
+		
+		return totalContents;
+	}
+
+
+	
 	
 	
 }

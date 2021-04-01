@@ -92,6 +92,16 @@ public class MemberService {
 		close(conn);
 		return list;
 	}
+	
+	/**
+	 * 회원전체조회 paging
+	 */
+	public List<Member> selectAll(int start, int end) {
+		Connection conn = getConnection();
+		List<Member> list = memberDao.selectAll(conn,start,end);
+		close(conn);
+		return list;
+	}
 
 	/**
 	 * 회원권한 변경
@@ -116,6 +126,41 @@ public class MemberService {
 		close(conn);
 		return list;
 	}
+	
+	/**
+	 * 회원검색 paging
+	 */
+	public List<Member> searchMember(Map<String, String> param, int start, int end) {
+		Connection conn = getConnection();
+		List<Member> list = memberDao.searchMember(conn,param,start,end);
+		close(conn);
+		return list;
+	}
+
+	/**
+	 * 전체회원수 조회
+	 */
+	public int selectMemberCounts() {
+		Connection conn = getConnection();
+		int totalContents = memberDao.selectMemberCount(conn);
+		close(conn);
+		return totalContents;
+	}
+
+	/**
+	 * 검색된 전체회원수 조회
+	 */
+	public int searchMemberCounts(Map<String, String> param) {
+		Connection conn = getConnection();
+		int totalContents = memberDao.searchMemberCount(conn,param);
+		close(conn);
+		return totalContents;
+	}
+
+	
+
+
+	
 	
 
 }
