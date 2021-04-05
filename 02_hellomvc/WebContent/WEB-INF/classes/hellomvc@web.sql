@@ -54,7 +54,7 @@ values (
 commit;
 
 select * from member where member_role='A';
-select * from member;
+select * from member where member_name like '%정%';
 
 
 
@@ -87,16 +87,19 @@ where rnum between 11 and 20;
 -- cPage = 5 : 41 ~ 50
 -- ....
 -- cPage = 12 : 111 ~ 120
+select * from ( select row_number() over(order by enroll_date desc) rnum, M.* from member M where member_name like '%정%' ) M where rnum between ? and ?;
+select count(*) cnt from member where member_name like '%정%';
+
+
+
+
 select *
 from (
     select row_number() over(order by enroll_date desc) rnum, 
             M.*
     from member M
 ) M
-where rnum between 1 and 10 
-        and member_name like '%정%';
-
-
+where rnum between 1 and 10;
 
 
 

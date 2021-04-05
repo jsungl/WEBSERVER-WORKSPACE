@@ -32,44 +32,38 @@ public class UpdatePasswordServlet extends HttpServlet {
 	 * 비밀번호 변경처리
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//1. 사용자 입력값 처리 : 기존비밀번호/신규비밀번호 암호화처리 필수
-		String password = MvcUtils.getSha512(request.getParameter("password")); //기존비밀번호
-		String newPassword = MvcUtils.getSha512(request.getParameter("newPassword")); //새로운 비밀번호
-		System.out.println("password@UpdatePasswordServlet = " + password);
-		System.out.println("newPassword@UpdatePasswordServlet = " + newPassword);
-		
-        
-        //2. 기존비밀번호 비교 : session의 loginMember객체 이용할 것
-		HttpSession session = request.getSession();
-		Member member = (Member)session.getAttribute("loginMember");
+		String location = request.getContextPath();
+		String msg = null;
 		int result = 0;
-		//System.out.println("loginMember객체에 저장된 비밀번호 = " + member.getPassword());
-		if(member.getPassword().equals(password)) {
-			System.out.println("비밀번호 일치");
-			//3. 업무로직 : 기존비밀번호가 일치한 경우만 신규비밀번호로 업데이트한다.
-			member.setPassword(newPassword);
-			result = memberService.updatePassword(member);
+		
+		//1. 사용자 입력값 처리 : 기존비밀번호/신규비밀번호 암호화처리 필수
+		String oldPassword = MvcUtils.getSha512(request.getParameter("password"));
+		String newPassword = MvcUtils.getSha512(request.getParameter("newPassword"));
+		
+		//2. 기존비밀번호 비교 : session의 loginMember객체 이용할 것
+		HttpSession session = request.getSession();
+		Member loginMember = (Member) session.getAttribute("loginMember");
+
+		if(oldPassword.equals(loginMember.getPassword())) {
 			
-		}else {
-			System.out.println("비밀번호 불일치");
-			session.setAttribute("msg", "비밀번호가 일치하지 않습니다.");
-			response.sendRedirect(request.getContextPath() + "/member/updatePassword");
+			//3. 업무로직 : 기존비밀번호가 일치한 경우만 신규비밀번호로 업데이트한다.
+			loginMember.setPassword(newPassword);
+			result = memberService.updatePassword(loginMember);
+			msg = (result > 0) ? 
+					"비밀번호를 성공적으로 변경했습니다." : 
+						"비밀번호를 변경에 실패했습니다.";
+			location += "/member/memberView";
 		}
-        
-        //4. 사용자경고창 및 리다이렉트 처리
-        //기존비밀번호가 일치하지 않았다면, "비밀번호가 일치하지 않습니다." 안내 & /mvc/member/updatePassword 리다이렉트
-        //기존비밀번호가 일치하고, 신규비밀번호 변경에 성공했다면, "비밀번호를 성공적으로 변경했습니다." 안내 & /mvc/member/memberView 리다이렉트 
-		if(result > 0)
-			//신규비밀번호 변경 성공
-			session.setAttribute("msg", "비밀번호를 성공적으로 변경했습니다.");
-			//세션의 정보도 갱신
-			//session.setAttribute("loginMember", memberService.selectOne(memberId)); 
-		else
-			//변경 실패
-			session.setAttribute("msg", "비밀번호 변경에 실패하였습니다.");
+		else {
+			msg = "비밀번호가 일치하지 않습니다.";				
+			location += "/member/updatePassword";
+		}
 		
-		
-		response.sendRedirect(request.getContextPath() + "/member/memberView");
+		//4. 사용자경고창 및 리다이렉트 처리
+		//기존비밀번호가 일치하지 않았다면, "비밀번호가 일치하지 않습니다." 안내 & /mvc/member/updatePassword 리다이렉트
+		//기존비밀번호가 일치하고, 신규비밀번호 변경에 성공했다면, "비밀번호를 성공적으로 변경했습니다." 안내 & /mvc/member/memberView 리다이렉트 
+		session.setAttribute("msg", msg);
+		response.sendRedirect(location);
 		
 		
 		

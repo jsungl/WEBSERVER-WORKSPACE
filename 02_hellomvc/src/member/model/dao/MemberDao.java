@@ -375,6 +375,7 @@ public class MemberDao {
 		List<Member> list = null;
 		
 		String query = prop.getProperty("searchMemberList");
+		//query = setQuery(query,param.get("searchType"),param.get("searchKeyword"));
 		switch(param.get("searchType")) {
 		case "memberId" : query += " member_id like '%" + param.get("searchKeyword") + "%'";break;
 		case "memberName" : query += " member_name like '%" + param.get("searchKeyword") + "%'";break;
@@ -465,6 +466,7 @@ public class MemberDao {
 		int totalContents = 0;
 		
 		String query = prop.getProperty("searchMemberCount");
+		//query = setQuery(query,param.get("searchType"),param.get("searchKeyword"));
 		switch(param.get("searchType")) {
 		case "memberId" : query += " member_id like '%" + param.get("searchKeyword") + "%'";break;
 		case "memberName" : query += " member_name like '%" + param.get("searchKeyword") + "%'";break;
@@ -495,7 +497,17 @@ public class MemberDao {
 	}
 
 
-	
+	/**
+	 * query중복처리 메소드
+	 */
+	public String setQuery(String query,String searchType,String searchKeyword) {
+		switch(searchType) {
+		case "memberId" : query += " member_id like '%" + searchKeyword + "%'";break;
+		case "memberName" : query += " member_name like '%" + searchKeyword + "%'";break;
+		case "gender" : query += " gender = '" + searchKeyword + "'";break;
+		}
+		return query;
+	}
 	
 	
 }

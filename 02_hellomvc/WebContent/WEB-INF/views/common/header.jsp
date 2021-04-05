@@ -14,6 +14,10 @@
 	Member loginMember = (Member)session.getAttribute("loginMember");
 	//System.out.println("loginMember@header.jsp = " + loginMember);
 	
+	String sessionId = session.getId();
+	System.out.println("JSESSIONID : " + sessionId); //최신 SESSIONID
+	
+	
 	//사용자 쿠키처리
 	String saveId = null;
 	Cookie[] cookies = request.getCookies();
@@ -21,12 +25,14 @@
 		for(Cookie c : cookies){
 			String name = c.getName();
 			String value = c.getValue();
-			System.out.println(name + " : " + value); //saveId : honggd, JSESSIONID : 
+			//System.out.println(name + " : " + value); //saveId : honggd, JSESSIONID :  
 			if("saveId".equals(name))
 				saveId = value;
 		}
 	}
 %>
+
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -63,23 +69,6 @@ alert("<%= msg %>");
 				return false;
 			}
 		});
-		
-		/* //회원가입폼 검사
-		$("#memberEnrollFrm").submit(function(){
-			var $pwd = $("#password_");
-			var $pwdCheck = $("#password2");
-			
-			console.log($pwd);
-			console.log($pwdCheck);
-			
-			if($pwd.val() != $pwdCheck.val()){
-				alert("비밀번호가 일치하지않습니다");
-				$pwd.select();
-				return false;
-			}
-			
-		}); */
-		
 		
 	});
 </script>
@@ -137,7 +126,7 @@ alert("<%= msg %>");
 				<ul class="main-nav">
 					<li class="home"><a href="<%= request.getContextPath() %>">Home</a></li>
 					<li class="notice"><a href="#">공지사항</a></li>
-					<li class="board"><a href="#">게시판</a></li>
+					<li class="board"><a href="<%= request.getContextPath() %>/board/boardList">게시판</a></li>
 					<%-- 관리자로그인시에만 관리자메뉴(회원관리) 노출 --%>
 					<% if(loginMember != null && MemberService.ADMIN_ROLE.equals(loginMember.getMemberRole())) {  %>
 					<li class="members"><a href="<%= request.getContextPath() %>/admin/memberList">회원관리</a></li>

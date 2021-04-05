@@ -38,7 +38,6 @@ public class MemberLogoutServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		doGet(request, response); //get호출 -> get으로 오건 post로 오건 동일하게 처리한다는 말
 	}
 

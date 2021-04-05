@@ -58,22 +58,7 @@ public class MemberEnrollServlet extends HttpServlet {
 				String[] hobby = request.getParameterValues("hobby");
 				String hobbies = "";
 				if(hobby != null)
-					hobbies = String.join(",", hobby); //배열을 문자열로 변환(구분자추가)
-				
-				
-				
-				
-				
-//				System.out.println("memberId@Enrollservlet = " + memberId);
-//				System.out.println("password@Enrollservlet = " + password);
-//				System.out.println("memberName@Enrollservlet = " + memberName);
-//				System.out.println("birthday@Enrollservlet = " + bday);
-//				System.out.println("email@Enrollservlet = " + email);
-//				System.out.println("phone@Enrollservlet = " + phone);
-//				System.out.println("address@Enrollservlet = " + address);
-//				System.out.println("gender@Enrollservlet = " + gender);
-//				System.out.println("hobby@Enrollservlet = " + hobbies);  
-				
+					hobbies = String.join(",", hobby); //배열을 문자열로 변환(구분자추가)								
 				
 				
 				//3. 업무로직 : memberId로 회원객체를 조회 

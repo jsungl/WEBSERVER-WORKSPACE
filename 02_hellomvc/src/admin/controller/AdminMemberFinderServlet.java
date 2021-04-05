@@ -58,6 +58,7 @@ public class AdminMemberFinderServlet extends HttpServlet {
 		int totalContents = memberService.searchMemberCounts(param); //전체회원수
 		
 		//3. pagebar영역 설정
+		//request.getQueryString() http://127.0.0.1:9090/mvc/admin/memberFinder?searchType=memberId&searchKeyword=a
 		//String url = request.getRequestURI(); // url :  /mvc/admin/memberFinder
 		String url = request.getRequestURI() + "?searchType=" + searchType + "&searchKeyword=" + searchKeyword ; 
 		//System.out.println("MemberFinderUrl = " + url);

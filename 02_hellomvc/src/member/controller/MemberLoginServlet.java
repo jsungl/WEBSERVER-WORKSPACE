@@ -27,7 +27,7 @@ import member.model.vo.Member;
 public class MemberLoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L; 
 	
-	MemberService memberService = new MemberService();
+	private MemberService memberService = new MemberService();
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
@@ -43,7 +43,7 @@ public class MemberLoginServlet extends HttpServlet {
 		String saveId = request.getParameter("saveId");
 		//System.out.println("memberId@servlet = " + memberId);
 		//System.out.println("password@servlet = " + password);
-		System.out.println("saveId@servlet = " + saveId); //on
+		System.out.println("saveId@servlet = " + saveId); //아이디저장체크하면 on, 그냥로그인시 null
 		
 		
 		//3. 업무로직 : memberId로 회원객체를 조회 
@@ -54,7 +54,8 @@ public class MemberLoginServlet extends HttpServlet {
 		
 		
 		//로그인 성공/실패 여부 판단
-		//1. 로그인성공 : member != null & password.equals(member.getPassword())
+		//1. 로그인성공 : 아이디가 존재하고 비번이 일치할때
+		//member != null & password.equals(member.getPassword())
 		//2. 로그인 실패
 		// 아이디가 존재하지않을때 member == null
 		// 비번이 틀릴때  member != null && ! password.equals(member.getPassword())
@@ -71,13 +72,17 @@ public class MemberLoginServlet extends HttpServlet {
 			System.out.println(session.getId()); //클라이언트와 공유하는 JSESSIONID
 			session.setAttribute("loginMember", member);
 			
-			//session timeout : web.xml보다 우선순위 높음
-			//초단위로 작성
+			/**
+			 * session timeout : web.xml보다 우선순위 높음
+			 * 초단위로 작성
+			 */
 			//session.setMaxInactiveInterval(30); //로그인성공후 30초동안만 세션유지 -> 30초후 새로고침하면 로그인이 풀린다 
 			
-			
-			//아이디저장
-			//saveId : cookie처리		
+					
+			/**
+			 * 아이디 저장
+			 * saveId : cookie처리
+			 */
 			Cookie c = new Cookie("saveId",memberId);
 			c.setPath(request.getContextPath()); //path : 쿠키를 전송할 url
 			if(saveId != null) {

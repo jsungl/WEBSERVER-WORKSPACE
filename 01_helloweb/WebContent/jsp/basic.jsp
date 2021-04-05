@@ -29,7 +29,8 @@
 		document.querySelector("#sum").innerText = sum;
 		
 		var now = new Date();
-		document.querySelector("#now").innerText = now.getTime();
+		document.querySelector("#now").innerText = now;
+		document.querySelector("#now2").innerText = now.getTime();
 		
 	};
 	
@@ -37,7 +38,7 @@
 </script>
 </head>
 <body>
-	<h1>Bsisc</h1>
+	<h1>Basic</h1>
 	<%-- jsp주석은 java파일 변환시 제거된다 --%>
 	<!-- html주석은 client까지 전달된다 -->
 	<p>java로 계산된 결과 : <%= sum %></p>  <%-- jsp스크립팅 요소 : 출력식 (;을 찍지않는다)--%>
@@ -47,6 +48,6 @@
 	
 	<hr />
 	<p>server-side : 현재시각<%= now %>(<%= now.getTime() %>)</p>
-	<p>client-side : 현재시각 <span id="now"></span></p>
+	<p>client-side : 현재시각 <span id="now"></span>(<span id="now2"></span>)</p>
 </body>
 </html>

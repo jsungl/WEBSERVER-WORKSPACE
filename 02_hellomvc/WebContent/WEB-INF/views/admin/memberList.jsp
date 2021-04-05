@@ -109,9 +109,7 @@
 	<div id="pageBar">
 		<%= request.getAttribute("pageBar") %>
 	</div>
-	<%-- </div>
-		<%= request.getAttribute("pageBar") %>
-	<div> --%>
+	
 </section>
 <form action="<%= request.getContextPath() %>/admin/memberRoleUpdate" name="memberRoleUpdateFrm" method="POST">
 	<input type="hidden" name="memberId" />

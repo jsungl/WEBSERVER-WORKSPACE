@@ -56,7 +56,7 @@ public class AdminMemberListServlet extends HttpServlet {
 		int end = cPage * numPerPage;
 //		int start = end - (numPerPage - 1);
 		List<Member> list = memberService.selectAll(start,end);
-		int totalContents = memberService.selectMemberCounts(); //전체회원수
+		int totalContents = memberService.selectMemberCounts(); //전체회원수 구하기
 		System.out.println("totalContents = " + totalContents);
 
 //		List<Member> list = memberService.selectAll();

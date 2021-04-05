@@ -32,7 +32,6 @@ import javax.servlet.http.HttpServletResponse;
  * - login (id/password가 url에 노출되는것을 막기위해)-> POST
  */
 public class TestPerson1Servlet extends HttpServlet {
-	
 	/**
 	 * 기본생성자
 	 */
@@ -60,8 +59,10 @@ public class TestPerson1Servlet extends HttpServlet {
 	@Override
 	public void doGet(HttpServletRequest request, HttpServletResponse response) 
 		throws IOException, ServletException{
+//			doPost(request,response);
 			//매 요청시 사용되는 servlet객체는 동일하다(hashcode가 동일한것을 확인할수있다)
-			System.out.println(this.hashCode());
+			System.out.println("doGet()");
+			System.out.println("hashCode = " + this.hashCode());
 			
 			
 			//1. 사용자입력값 가져오기
@@ -95,43 +96,44 @@ public class TestPerson1Servlet extends HttpServlet {
 		
 	}
 	
+	//http://127.0.0.1:9090/web/testPerson1.do
 	@Override
-	public void doPost(HttpServletRequest request, HttpServletResponse response)
-		throws IOException, ServletException{
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		//0. 인코딩 선언(POST방식에서는 무조건해줘야한다)
+		//http message body부분 인코딩이 유효하도록 한다
+		System.out.println("doPost()");
+		request.setCharacterEncoding("utf-8");
+	
+		//1. 사용자입력값 가져오기
+		String name = request.getParameter("name");
+		String color = request.getParameter("color");
+		String animal = request.getParameter("animal");
+		String[] foodArr = request.getParameterValues("food"); //여러값(String배열을 리턴)
 		
-			//0. 인코딩 선언(POST방식에서는 무조건해줘야한다)
-			//http message body부분 인코딩이 유효하도록 한다
-			request.setCharacterEncoding("utf-8");
+		System.out.println("name = " + name);
+		System.out.println("color = " + color);
+		System.out.println("animal = " + animal);
+		System.out.println("foodArr = " + Arrays.toString(foodArr));
 		
-			//1. 사용자입력값 가져오기
-			String name = request.getParameter("name");
-			String color = request.getParameter("color");
-			String animal = request.getParameter("animal");
-			String[] foodArr = request.getParameterValues("food"); //여러값(String배열을 리턴)
-			
-			System.out.println("name = " + name);
-			System.out.println("color = " + color);
-			System.out.println("animal = " + animal);
-			System.out.println("foodArr = " + Arrays.toString(foodArr));
-			
-			//2. 응답메세지 작성 : html
-			response.setContentType("text/html; charset=utf-8");
-			PrintWriter out = response.getWriter();
-			out.println("<!DOCTYPE html>");
-			out.println("<html>");
-			out.println("<head>");
-			out.println("<title>개취 검사 결과</title>");
-			out.println("</head>");
-			out.println("<body>");
-			out.println("<h1>개인취향 검사 결과 POST</h1>");
-			out.println("<p>" + name + "님의 개인취향 검사 결과는 </p>");
-			out.println("<p>" + color + "색을 좋아합니다. </p>");
-			out.println("<p>좋아하는 동물은 " + animal + "입니다. </p>");
-			out.println("<p>좋아하는 음식은 " + Arrays.toString(foodArr) + "입니다. </p>");
-			out.println("</body>");
-			out.println("</html>");
-		
+		//2. 응답메세지 작성 : html
+		response.setContentType("text/html; charset=utf-8");
+		PrintWriter out = response.getWriter();
+		out.println("<!DOCTYPE html>");
+		out.println("<html>");
+		out.println("<head>");
+		out.println("<title>개취 검사 결과</title>");
+		out.println("</head>");
+		out.println("<body>");
+		out.println("<h1>개인취향 검사 결과 POST</h1>");
+		out.println("<p>" + name + "님의 개인취향 검사 결과는 </p>");
+		out.println("<p>" + color + "색을 좋아합니다. </p>");
+		out.println("<p>좋아하는 동물은 " + animal + "입니다. </p>");
+		out.println("<p>좋아하는 음식은 " + Arrays.toString(foodArr) + "입니다. </p>");
+		out.println("</body>");
+		out.println("</html>");
 	}
+	
+	
 	
 	
 	

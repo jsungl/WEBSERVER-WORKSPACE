@@ -38,19 +38,19 @@ span#duplicated{color:red; font-weight:bold;}
 <script>
 	//아이디 중복검사
 	function checkIdDuplicate(){
-	var $memberId = $("[name=memberId]");
-	if(/^[a-zA-Z0-9_]{4,}$/.test($memberId.val()) == false){
-		alert("유효한 아이디를 입력해주세요.");
-		$memberId.select();
-		return;
+		var $memberId = $("[name=memberId]");
+		if(/^[a-zA-Z0-9_]{4,}$/.test($memberId.val()) == false){
+			alert("유효한 아이디를 입력해주세요.");
+			$memberId.select();
+			return;
+		}
+		
+		$frm = $(document.checkIdDuplicateFrm);
+		
+		$frm.attr("action", "<%= request.getContextPath() %>/member/checkIdDuplicate")
+			.attr("method", "POST")
+			.submit();	
 	}
-	
-	$frm = $(document.checkIdDuplicateFrm);
-	
-	$frm.attr("action", "<%= request.getContextPath() %>/member/checkIdDuplicate")
-		.attr("method", "POST")
-		.submit();	
-}
 	
 	/**
 	 * 사용가능한 아이디를 찾은 경우

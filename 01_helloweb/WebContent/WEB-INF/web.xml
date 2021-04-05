@@ -7,6 +7,7 @@
     <welcome-file>index.jsp</welcome-file>
   </welcome-file-list>
   
+  
   <servlet>
   	<servlet-name>TestPerson1Servlet</servlet-name>
   	<servlet-class>com.kh.web.servlet.TestPerson1Servlet</servlet-class>
@@ -15,6 +16,7 @@
   	<servlet-name>TestPerson1Servlet</servlet-name>
   	<url-pattern>/testPerson1.do</url-pattern>
   </servlet-mapping>
+  
   
   <servlet>
   	<servlet-name>TestPerson2Servlet</servlet-name>
@@ -25,6 +27,7 @@
   	<url-pattern>/testPerson2.do</url-pattern>
   </servlet-mapping>
   
+  
   <servlet>
   	<servlet-name>MenuOrder</servlet-name>
   	<servlet-class>com.kh.web.menu.MenuOrderServlet</servlet-class>
@@ -33,4 +36,5 @@
   	<servlet-name>MenuOrder</servlet-name>
   	<url-pattern>/menuOrder.do</url-pattern>
   </servlet-mapping>
+  
 </web-app>

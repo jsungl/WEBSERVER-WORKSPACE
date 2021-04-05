@@ -119,19 +119,6 @@
 	function updateMember() {
 		
 		
-		//password
-		/* var $p1 = $("#password_");
-		var $p2 = $("#password2");
-		if(/^[a-zA-Z0-9!@#$$%^&*()]{4,}/.test($p1.val()) == false){
-			alert("유효한 패스워드를 입력하세요.");
-			$p1.select();
-			return false;
-		}
-		if($p1.val() != $p2.val()){
-			alert("패스워드가 일치하지 않습니다.");
-			$p1.select();
-			return false;
-		} */
 		
 		//memberName
 		var $memberName = $("#memberName");
