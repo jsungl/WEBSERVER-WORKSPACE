@@ -6,17 +6,8 @@
 <%
   
   Board board = (Board)request.getAttribute("board");
-  Attachment attach = (Attachment)request.getAttribute("attach");
-  int no = board.getNo();
-  String title = board.getTitle();
-  String writer = board.getWriter();
-  int readCount = board.getReadCount();
-  String content = board.getContent();
-
-
-
-
-
+  boolean editable = loginMember != null && 
+		  			(loginMember.getMemberId().equals(board.getWriter()) || MemberService.ADMIN_ROLE.equals(loginMember.getMemberRole()));
 %>
 
 
@@ -28,34 +19,36 @@
 	<table id="tbl-board-view">
 		<tr>
 			<th>글번호</th>
-			<td><%= no %></td>
+			<td><%= board.getNo() %></td>
 		</tr>
 		<tr>
 			<th>제 목</th>
-			<td><%= title %></td>
+			<td><%= board.getTitle() %></td>
 		</tr>
 		<tr>
 			<th>작성자</th>
-			<td><%= writer %></td>
+			<td><%= board.getWriter() %></td>
 		</tr>
 		<tr>
 			<th>조회수</th>
-			<td><%= readCount %></td>
+			<td><%= board.getReadCount() %></td>
 		</tr>
 		<tr>
 			<th>첨부파일</th>
 			<td>
 				<%-- 첨부파일이 있을경우만, 이미지와 함께 original파일명 표시 --%>
-				<% if(attach != null) { %>
+				<% if(board.getAttach() != null) { %>
 					<img alt="첨부파일" src="<%=request.getContextPath() %>/images/file.png" width=16px>
-					<a href="#"></a>
+					<a href="<%= request.getContextPath() %>/board/fileDownload?no=<%= board.getNo() %>"><%= board.getAttach().getOriginalFileName() %></a>
 				<% } %>
 			</td>
 		</tr>
 		<tr>
 			<th>내 용</th>
-			<td><%= content %></td>
+			<td><%= board.getContent() %></td>
 		</tr>
+		
+		<% if(editable){ %>
 		<tr>
 			<%-- 작성자와 관리자만 마지막행 수정/삭제버튼이 보일수 있게 할 것 --%>
 			<th colspan="2">
@@ -63,6 +56,25 @@
 				<input type="button" value="삭제하기" onclick="deleteBoard()">
 			</th>
 		</tr>
+		<% } %>
 	</table>
 </section>
+
+<% if(editable) { %>
+<form action="<%= request.getContextPath() %>/board/boardDelete" name="boardDelFrm" method="POST">
+		<input type="hidden" name="no" value="<%= board.getNo() %>" />
+</form>
+<script>
+	function deleteBoard() {
+		if(confirm("게시글을 정말 삭제하시겠습니까?")){
+			$(document.boardDelFrm).submit();
+		}
+	}
+	
+	function updateBoard() {
+		location.href = "<%= request.getContextPath() %>/board/boardUpdate?no=<%= board.getNo() %>";
+	}
+	
+</script>
+<% } %>
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>

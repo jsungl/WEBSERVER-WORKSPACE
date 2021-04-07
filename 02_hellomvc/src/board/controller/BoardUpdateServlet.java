@@ -18,31 +18,31 @@ import board.model.vo.Board;
 import common.MvcFileRenamePolicy;
 
 /**
- * Servlet implementation class BoardEnrollServlet
+ * Servlet implementation class BoardUpdateServlet
  */
-@WebServlet("/board/boardEnroll")
-public class BoardEnrollServlet extends HttpServlet {
+@WebServlet("/board/boardUpdate")
+public class BoardUpdateServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private BoardService boardService = new BoardService();
+	
 	/**
-	 * 파일업로드
-	 * 0. form의 속성 enctype="multipart/form-data" 추가
-	 * 1. MultipartRequest 객체 생성 : 서버컴퓨터에 파일저장
-	 * 		- request
-	 * 		- 저장경로
-	 * 		- encoding
-	 * 		- 최대허용크기
-	 * 		- 파일명 변경정책객체
-	 * 2. db에 파일정보를 저장
-	 * 		- 사용자가 저장한 파일명 original_filename
-	 * 		- 실제 저장된 파일명 renamed_filename
-	 * 
-	 * MultipartRequest객체를 사용하면 기존 HttpServletRequest에서는 사용자입력값에 접근할수없다.
-	 * 
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		//1. 사용자입력값 
+		int no = Integer.parseInt(request.getParameter("no"));
+		
+		//2. 업무로직
+		Board board = boardService.selectBoard(no);
+		
+		request.setAttribute("board", board);
+		request.getRequestDispatcher("/WEB-INF/views/board/boardUpdateForm.jsp").forward(request, response);
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		
 		try {
 			
 			//1. MultipartRequest 객체생성
@@ -69,6 +69,7 @@ public class BoardEnrollServlet extends HttpServlet {
 			
 			//2. db에 게시글/첨부파일 정보 저장	
 			//2-1. 사용자 입력값
+			int no = Integer.parseInt(multipartRequest.getParameter("no"));
 			String title = multipartRequest.getParameter("title");
 			String writer = multipartRequest.getParameter("writer");
 			String content = multipartRequest.getParameter("content");
@@ -83,6 +84,7 @@ public class BoardEnrollServlet extends HttpServlet {
 			
 			//2. 업무로직 : db에 insert
 			Board board = new Board();
+			board.setNo(no);
 			board.setTitle(title);
 			board.setWriter(writer);
 			board.setContent(content);
@@ -91,21 +93,21 @@ public class BoardEnrollServlet extends HttpServlet {
 			//multipartRequest.getFile("upFile"):File != null
 			if(originalFileName != null) {
 				Attachment attach = new Attachment();
+				attach.setBoardNo(no);
 				attach.setOriginalFileName(originalFileName);
 				attach.setRenamedFileName(renamedFileName);
 				board.setAttach(attach);
 			}
 			
 			
-			int result = boardService.insertBoard(board);
+			int result = boardService.updateBoard(board);
 			
 			//System.out.println("result@BoardEnrollServlet = " + result);
 			//3. DML요청 : 리다이렉트 & 사용자피드백(alert)
 			//  /mvc/board/boardList
 			HttpSession session = request.getSession();
-			String msg = (result > 0) ? "게시글 등록 성공" : "게시글 등록 실패";
-			String location = request.getContextPath();
-			location += (result > 0) ? "/board/boardView?no=" + board.getNo() : "/board/boardList";
+			String msg = (result > 0) ? "게시글 수정 성공" : "게시글 수정 실패";
+			String location = request.getContextPath() + "/board/boardView?no=" + board.getNo(); //다시 상세페이지로 이동
 			
 			
 			session.setAttribute("msg", msg);
@@ -118,7 +120,6 @@ public class BoardEnrollServlet extends HttpServlet {
 			//관리자이메일 알림
 			throw e;
 		}
-		
 	}
 
 }

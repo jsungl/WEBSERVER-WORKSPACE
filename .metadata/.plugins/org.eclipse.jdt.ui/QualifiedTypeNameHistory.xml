@@ -22,7 +22,11 @@
 <fullyQualifiedTypeName name="common.MvcUtils"/>
 <fullyQualifiedTypeName name="java.sql.Date"/>
 <fullyQualifiedTypeName name="java.util.Properties"/>
-<fullyQualifiedTypeName name="board.model.vo.Board"/>
-<fullyQualifiedTypeName name="board.model.service.BoardService"/>
 <fullyQualifiedTypeName name="common.JDBCTemplate"/>
+<fullyQualifiedTypeName name="com.oreilly.servlet.MultipartRequest"/>
+<fullyQualifiedTypeName name="com.oreilly.servlet.multipart.DefaultFileRenamePolicy"/>
+<fullyQualifiedTypeName name="common.MvcFileRenamePolicy"/>
+<fullyQualifiedTypeName name="board.model.service.BoardService"/>
+<fullyQualifiedTypeName name="board.model.vo.Board"/>
+<fullyQualifiedTypeName name="board.model.vo.Attachment"/>
 </qualifiedTypeNameHistroy>

@@ -53,6 +53,9 @@ public class BoardService {
 			int boardNo = boardDao.selectLastBoardNo(conn);
 			System.out.println("boardNo@service = " + boardNo);
 			
+			//redirect location설정
+			board.setNo(boardNo);
+			
 			if(board.getAttach() != null) {
 				//참조할 boardNo 세팅
 				board.getAttach().setBoardNo(boardNo);
@@ -60,9 +63,10 @@ public class BoardService {
 			}
 			commit(conn);
 		}catch(Exception e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 			rollback(conn);
-			result = 0;
+			//result = 0;
+			throw e;
 		}finally {
 			close(conn);
 		}
@@ -76,27 +80,66 @@ public class BoardService {
 	 */
 	public Board selectBoard(int no) {
 		Connection conn = getConnection();
-		Board b = boardDao.selectBoard(conn,no);
+		Board board = boardDao.selectBoard(conn, no);
+		Attachment attach = boardDao.selectAttach(conn, no); //dql 오류처리시 throw e안해도됨
+		board.setAttach(attach);
 		close(conn);
-		return b;
+		return board;
 	}
-	
+
 	/**
-	 * 선택한 게시글 첨부파일 조회
+	 * board_no로 attachment조회
 	 */
-	public Attachment selectAttach(int no) {
+	public Attachment selectOneAttachment(int no) {
 		Connection conn = getConnection();
-		Attachment attach = boardDao.selectAttach(conn,no);
+		Attachment attach = boardDao.selectAttach(conn, no);
 		close(conn);
 		return attach;
 	}
 
-	public Board selectBoard(String title, String writer) {
+	/**
+	 * 게시글 삭제
+	 */
+	public int deleteBoard(int no) {
 		Connection conn = getConnection();
-		Board b = boardDao.selectBoard(conn,title,writer);
-		close(conn);
-		return b;
+		int result = 0;
+		try {
+			result = boardDao.deleteBoard(conn, no); //존재하지않은 게시글을 삭제하면 result값이 0이다
+			if(result == 0)
+				throw new IllegalArgumentException("해당 게시글이 존재하지않습니다. : " + no); //부적절한 인자로 인한 exception
+			commit(conn);			
+		} catch(Exception e) {
+			//e.printStackTrace();
+			rollback(conn);
+			throw e; //controller가 예외처리를 결정할수있도록 넘겨준다 (dml)
+		} finally {
+			close(conn);			
+		}
+		return result;
 	}
+
+	/**
+	 * 게시글 수정
+	 */
+	public int updateBoard(Board board) {
+		Connection conn = getConnection();
+		int result = 0;
+		try {
+			//1. board update
+			result = boardDao.updateBoard(conn,board);
+			//2. attachment insert
+			if(board.getAttach() != null) //첨부파일이 없었을경우
+				result = boardDao.insertAttachment(conn, board.getAttach());
+			
+			commit(conn);
+		} catch(Exception e) {
+			rollback(conn);
+			throw e;
+		}
+		return result;
+	}
+ 	
+	
 	
 	
 	

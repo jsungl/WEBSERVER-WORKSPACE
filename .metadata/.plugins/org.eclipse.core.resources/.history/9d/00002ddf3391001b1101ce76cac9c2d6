@@ -1,5 +1,0 @@
-package common.filter;
-
-public class LoggerFilter {
-
-}

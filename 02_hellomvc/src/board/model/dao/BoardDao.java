@@ -86,7 +86,7 @@ public class BoardDao {
 				board.setRegDate(rset.getDate("reg_date"));
 				board.setReadCount(rset.getInt("read_count"));
 				
-				System.out.println(rset.getInt("attach_no"));
+				System.out.println("attach_no@BoardDao = " + rset.getInt("attach_no"));
 				//첨부파일이 있는 경우
 				if(rset.getInt("attach_no") != 0) {
 					Attachment attach = new Attachment();
@@ -102,7 +102,8 @@ public class BoardDao {
 			}
 			
 		} catch (SQLException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
+			throw new BoardException("게시물 전체 조회 오류",e);
 		} finally {
 			close(rset);
 			close(pstmt);
@@ -214,9 +215,11 @@ public class BoardDao {
 				board.setWriter(rset.getString("writer"));
 				board.setReadCount(rset.getInt("read_count"));
 				board.setContent(rset.getString("content"));
+				board.setRegDate(rset.getDate("reg_date"));
+				board.setReadCount(rset.getInt("read_count"));
 			}
 		}catch(Exception e){
-			e.printStackTrace();
+			throw new BoardException("게시물 조회 오류",e);
 		}finally{
 			close(rset);
 			close(pstmt);
@@ -237,9 +240,10 @@ public class BoardDao {
 		try{
 			//미완성쿼리문을 가지고 객체생성.
 			pstmt = conn.prepareStatement(query);
-			//미완성 쿼리문 값대입
+			//쿼리문미완성
 			pstmt.setInt(1, no);
 			//쿼리문실행
+			//완성된 쿼리를 가지고 있는 pstmt실행(파라미터 없음)
 			rset = pstmt.executeQuery();
 			
 			if(rset.next()){
@@ -248,10 +252,10 @@ public class BoardDao {
 				attach.setBoardNo(rset.getInt("board_no"));
 				attach.setOriginalFileName(rset.getString("original_filename"));
 				attach.setRenamedFileName(rset.getString("renamed_filename"));
-				attach.setStatus("Y".equals(rset.getString("status")) ? true : false);
+				attach.setStatus("Y".equals(rset.getString("status")) ?  true : false);
 			}
 		}catch(Exception e){
-			e.printStackTrace();
+			throw new BoardException("게시물 첨부파일 조회 오류",e);
 		}finally{
 			close(rset);
 			close(pstmt);
@@ -259,36 +263,53 @@ public class BoardDao {
 		return attach;
 	}
 
-	public Board selectBoard(Connection conn, String title, String writer) {
-		Board board = null;
+	/**
+	 * 게시글 삭제
+	 */
+	public int deleteBoard(Connection conn, int no) {
+		int result = 0;
 		PreparedStatement pstmt = null;
-		ResultSet rset = null;
 		
-		String query = prop.getProperty("selectBoardOne");
-		
-		try{
-			//미완성쿼리문을 가지고 객체생성.
+		String query = prop.getProperty("deleteBoard");
+		try {
 			pstmt = conn.prepareStatement(query);
-			//미완성 쿼리문 값대입
-			pstmt.setString(1, title);
-			pstmt.setString(2, writer);
-			//쿼리문실행
-			rset = pstmt.executeQuery();
+			pstmt.setInt(1, no);
+			result = pstmt.executeUpdate();
 			
-			if(rset.next()){
-				board = new Board();
-				board.setNo(rset.getInt("no"));
-				board.setTitle(rset.getString("title"));
-				board.setWriter(rset.getString("writer"));
-				board.setReadCount(rset.getInt("read_count"));
-				board.setContent(rset.getString("content"));
-			}
-		}catch(Exception e){
-			e.printStackTrace();
-		}finally{
-			close(rset);
+		} catch (Exception e) {
+			throw new BoardException("게시물 삭제 오류",e);
+		} finally {
 			close(pstmt);
 		}
-		return board;
+		
+		return result;
 	}
+
+	/**
+	 * 게시글 수정
+	 */
+	public int updateBoard(Connection conn, Board board) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String query = prop.getProperty("updateBoard");
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1,board.getTitle());
+			pstmt.setString(2,board.getContent());
+			pstmt.setInt(3,board.getNo());
+			
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			throw new BoardException("게시물 수정 오류",e);
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+
+	
 }
