@@ -1,8 +1,0 @@
-######################################
-# member-query.properties
-########################################
-selectOne = select * from member where member_id = ?
-insertMember = insert into member values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, default)
-deleteMember = delete from member where member_id = ?
-updateMember = update member set password = ?, member_name = ?, birthday = ?, email = ?, phone = ?, address = ?, gender = ?, hobby = ? where member_id = ?
-updatePassword = update member set password = ? where member_id=?

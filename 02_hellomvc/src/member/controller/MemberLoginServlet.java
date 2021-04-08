@@ -109,8 +109,15 @@ public class MemberLoginServlet extends HttpServlet {
 //			reqDispatcher.forward(request, response); //jsp한테 처리위임			
 		}
 		
+		//이전페이지로 리다이렉트 처리
+		String referer = request.getHeader("Referer");
+		System.out.println("referer@MemberLoginServlet = " + referer);
+		
+		
+		
 		//리다이렉트 : url변경
-		response.sendRedirect(request.getContextPath()); //해당주소로 이동
+		//response.sendRedirect(request.getContextPath()); //해당주소로 이동
+		response.sendRedirect(referer); //해당주소로 이동
 		
 	}
 

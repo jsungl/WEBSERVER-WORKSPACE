@@ -81,8 +81,11 @@ public class BoardUpdateServlet extends HttpServlet {
 			String originalFileName = multipartRequest.getOriginalFileName("upFile");
 			String renamedFileName = multipartRequest.getFilesystemName("upFile");
 			
+			//삭제할 첨부파일번호
+			String attachNo = multipartRequest.getParameter("delFile");
+			System.out.println("attachNo@BoardUpdateServlet = " + attachNo);
+
 			
-			//2. 업무로직 : db에 insert
 			Board board = new Board();
 			board.setNo(no);
 			board.setTitle(title);
@@ -99,8 +102,15 @@ public class BoardUpdateServlet extends HttpServlet {
 				board.setAttach(attach);
 			}
 			
+			//2. 업무로직 : 
+			//첨부파일
+			int result = 0;
+			if(attachNo != null) {
+				result = boardService.deleteAttachment(attachNo);
+			}
 			
-			int result = boardService.updateBoard(board);
+			//db에 update
+			result = boardService.updateBoard(board);
 			
 			//System.out.println("result@BoardEnrollServlet = " + result);
 			//3. DML요청 : 리다이렉트 & 사용자피드백(alert)

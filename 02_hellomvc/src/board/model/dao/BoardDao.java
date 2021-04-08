@@ -15,6 +15,8 @@ import java.util.Properties;
 import board.model.exception.BoardException;
 import board.model.vo.Attachment;
 import board.model.vo.Board;
+import board.model.vo.BoardComment;
+import board.model.vo.BoardCommentCount;
 import member.model.vo.Member;
 
 
@@ -35,7 +37,7 @@ public class BoardDao {
 	}
 
 	/**
-	 * 전체 게시글 수
+	 * 전체 게시물 수
 	 */
 	public int selectBoardCount(Connection conn) {
 		PreparedStatement pstmt = null;
@@ -62,7 +64,7 @@ public class BoardDao {
 	}
 
 	/**
-	 * 전체 게시글 조회 paging
+	 * 전체 게시물 조회 paging
 	 */
 	public List<Board> selectAll(Connection conn, int start, int end) {
 		PreparedStatement pstmt = null;
@@ -78,13 +80,14 @@ public class BoardDao {
 			rset = pstmt.executeQuery();
 			list = new ArrayList<>();
 			while(rset.next()) {
-				Board board = new Board();
+				BoardCommentCount board = new BoardCommentCount();
 				board.setNo(rset.getInt("no"));
 				board.setTitle(rset.getString("title"));
 				board.setWriter(rset.getString("writer"));
 				board.setContent(rset.getString("content"));
 				board.setRegDate(rset.getDate("reg_date"));
 				board.setReadCount(rset.getInt("read_count"));
+				board.setBoardCommentCount(rset.getInt("comment_cnt"));
 				
 				System.out.println("attach_no@BoardDao = " + rset.getInt("attach_no"));
 				//첨부파일이 있는 경우
@@ -113,7 +116,7 @@ public class BoardDao {
 	}
 
 	/**
-	 * 게시글 추가
+	 * 게시물 추가
 	 */
 	public int insertBoard(Connection conn, Board board) {
 		int result = 0;
@@ -190,7 +193,7 @@ public class BoardDao {
 	}
 
 	/**
-	 * 선택한 게시글 조회
+	 * 선택한 게시물 조회
 	 */
 	public Board selectBoard(Connection conn, int no) {
 		
@@ -228,7 +231,7 @@ public class BoardDao {
 	}
 
 	/**
-	 * 선택한 게시글 첨부파일 조회
+	 * 선택한 게시물 첨부파일 조회
 	 */
 	public Attachment selectAttach(Connection conn, int no) {
 		Attachment attach = null;
@@ -264,7 +267,7 @@ public class BoardDao {
 	}
 
 	/**
-	 * 게시글 삭제
+	 * 게시물 삭제
 	 */
 	public int deleteBoard(Connection conn, int no) {
 		int result = 0;
@@ -286,7 +289,7 @@ public class BoardDao {
 	}
 
 	/**
-	 * 게시글 수정
+	 * 게시물 수정
 	 */
 	public int updateBoard(Connection conn, Board board) {
 		int result = 0;
@@ -304,6 +307,115 @@ public class BoardDao {
 			
 		} catch (SQLException e) {
 			throw new BoardException("게시물 수정 오류",e);
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+
+	/**
+	 * 첨부파일 삭제
+	 */
+	public int deleteAttachment(Connection conn, String attachNo) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String query = prop.getProperty("deleteAttachment");
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1,attachNo); //원래 number타입이지만 자동형변환된다
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			throw new BoardException("첨부파일 삭제 오류",e);
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+
+	
+	/**
+	 * 게시물 댓글작성
+	 */
+	public int insertBoardComment(Connection conn, BoardComment bc) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String query = prop.getProperty("insertBoardComment");
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1,bc.getCommentLevel()); 
+			pstmt.setString(2,bc.getWriter()); 
+			pstmt.setString(3,bc.getContent()); 
+			pstmt.setInt(4,bc.getBoardNo()); 
+			//pstmt.setInt(5,bc.getCommentRef());
+			pstmt.setObject(5, bc.getCommentRef() == 0 ? null : bc.getCommentRef()); //null값인경우 setInt를 할수없으므로 setObject로 변경
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			throw new BoardException("댓글 등록 오류",e);
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+
+	/**
+	 * 게시물 댓글 조회
+	 */
+	public List<BoardComment> selectBoardCommentList(Connection conn, int no) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String query = prop.getProperty("selectBoardCommentList");
+		List<BoardComment> commentList = new ArrayList<>();
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1,no);
+			
+			rset = pstmt.executeQuery();
+			while(rset.next()) {
+				BoardComment bc = new BoardComment();
+				bc.setNo(rset.getInt("no"));
+				bc.setCommentLevel(rset.getInt("comment_level"));
+				bc.setWriter(rset.getString("writer"));
+				bc.setContent(rset.getString("content"));
+				bc.setBoardNo(rset.getInt("board_no"));
+				bc.setCommentRef(rset.getInt("comment_ref"));
+				bc.setRegDate(rset.getDate("reg_date"));
+				commentList.add(bc);			
+			}
+				
+		} catch (SQLException e) {
+			//e.printStackTrace();
+			throw new BoardException("게시물 댓글 조회 오류",e);
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return commentList;
+	}
+
+	/**
+	 * 게시물 댓글 삭제
+	 */
+	public int deleteBoardComment(Connection conn, int no) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String query = prop.getProperty("deleteBoardComment");
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1,no); 
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			throw new BoardException("댓글 삭제 오류",e);
 		} finally {
 			close(pstmt);
 		}

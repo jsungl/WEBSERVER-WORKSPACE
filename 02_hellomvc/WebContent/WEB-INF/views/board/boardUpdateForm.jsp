@@ -56,11 +56,15 @@ $("[name=upFile]").change(function(){
 	console.log($(this).val());
 	if($(this).val() != "") {
 		//파일선택
-		$("#delFile").prop("checked",true); //체크박스 선택
+		$("#delFile").prop("checked",true)
+					 .on("click",function(){
+							return false; //다른첨부파일을 선택하면 기존있던 파일에 대한 삭제체크박스가 체크되고 비활성화된다
+					  }); //체크박스 선택
 	}	
 	else {
 		//파일선택 취소
-		$("#delFile").prop("checked",false); //체크박스 해제
+		$("#delFile").prop("checked",false)
+					 .off("click"); //체크박스 해제
 	}
 });
 	

@@ -1,10 +1,11 @@
+<%@page import="board.model.vo.BoardCommentCount"%>
 <%@page import="board.model.vo.Board"%>
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
 <%
-	List<Board> list = (List<Board>)request.getAttribute("list");
+	List<BoardCommentCount> list = (List<BoardCommentCount>)request.getAttribute("list");
 %>
 
 
@@ -29,13 +30,13 @@
 				<td colspan="6" style="text-align:center;">등록된 게시글이 없습니다. </td>
 		</tr>
 		<% } else {
-				for(Board b : list){
+				for(BoardCommentCount b : list){
 					
 		%>
 		<tr>
 				<td><%= b.getNo() %></td>
 				<td>
-					<a href="<%= request.getContextPath() %>/board/boardView?no=<%= b.getNo() %>"><%= b.getTitle() %></a>
+					<a href="<%= request.getContextPath() %>/board/boardView?no=<%= b.getNo() %>"><%= b.getTitle() %><%= (b.getBoardCommentCount() > 0) ? "(" + b.getBoardCommentCount() + ")" : "" %></a>
 				</td>
 				<td><%= b.getWriter() %></td>
 				<td><%= b.getRegDate() %></td>

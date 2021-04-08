@@ -46,6 +46,9 @@ public class BoardListServlet extends HttpServlet {
 			int start = (cPage - 1) * numPerPage + 1; //1 6 11
 			int end = cPage * numPerPage; // 5 10 15
 			List<Board> list = boardService.selectAll(start,end);
+			
+			
+			
 	//		for(Board b : list) {
 	//			System.out.println("list@servlet = " + b);
 	//		}

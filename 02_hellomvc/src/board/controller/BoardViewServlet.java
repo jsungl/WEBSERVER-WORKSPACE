@@ -1,6 +1,8 @@
 package board.controller;
 
 import java.io.IOException;
+import java.util.List;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -11,6 +13,7 @@ import board.model.exception.BoardException;
 import board.model.service.BoardService;
 import board.model.vo.Attachment;
 import board.model.vo.Board;
+import board.model.vo.BoardComment;
 import common.MvcUtils;
 
 /**
@@ -51,9 +54,16 @@ public class BoardViewServlet extends HttpServlet {
 				// \n개행문자를 <br/>태그로 변경후 다시 세팅
 				board.setContent(MvcUtils.convertLineFeedToBr(board.getContent()));
 				
+				//게시글의 댓글 가져오기
+				List<BoardComment> commentList = boardService.selectBoardCommentList(no);
+				System.out.println("commentList@BoardViewServlet = " + commentList);
+				//int commentListcount = commentList.size();
+				//System.out.println("commentListCount@BoardViewServlet = " + commentListcount);
+				
 				
 				//3. jsp forwarding
 				request.setAttribute("board", board);
+				request.setAttribute("commentList", commentList);				
 				request.getRequestDispatcher("/WEB-INF/views/board/boardView.jsp")
 					   .forward(request, response);
 		

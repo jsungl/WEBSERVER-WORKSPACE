@@ -11,6 +11,7 @@ import java.util.List;
 import board.model.dao.BoardDao;
 import board.model.vo.Attachment;
 import board.model.vo.Board;
+import board.model.vo.BoardComment;
 
 
 public class BoardService {
@@ -18,7 +19,7 @@ public class BoardService {
 	private BoardDao boardDao = new BoardDao();
 
 	/**
-	 * 전체게시글 수
+	 * 전체게시물 수
 	 */
 	public int selectBoardCount() {
 		Connection conn = getConnection();
@@ -28,7 +29,7 @@ public class BoardService {
 	}
 
 	/**
-	 * 전체 게시글 조회 paging
+	 * 전체 게시물 조회 paging
 	 */
 	public List<Board> selectAll(int start, int end) {
 		Connection conn = getConnection();
@@ -38,7 +39,7 @@ public class BoardService {
 	}
 	
 	/**
-	 * 게시글 추가
+	 * 게시물 추가
 	 * 첨부파일이 있는경우, attach객체를 attachment테이블에 등록한다
 	 *  - board등록, attachment등록은 하나의 트랜잭션으로 처리되어야한다(성공시 둘다성공, 실패시 둘다실패되야한다)
 	 *  
@@ -76,7 +77,7 @@ public class BoardService {
 	}
 
 	/**
-	 * 선택한 게시글 조회
+	 * 선택한 게시물 조회
 	 */
 	public Board selectBoard(int no) {
 		Connection conn = getConnection();
@@ -98,7 +99,7 @@ public class BoardService {
 	}
 
 	/**
-	 * 게시글 삭제
+	 * 게시물 삭제
 	 */
 	public int deleteBoard(int no) {
 		Connection conn = getConnection();
@@ -119,7 +120,7 @@ public class BoardService {
 	}
 
 	/**
-	 * 게시글 수정
+	 * 게시물 수정
 	 */
 	public int updateBoard(Board board) {
 		Connection conn = getConnection();
@@ -131,6 +132,65 @@ public class BoardService {
 			if(board.getAttach() != null) //첨부파일이 없었을경우
 				result = boardDao.insertAttachment(conn, board.getAttach());
 			
+			commit(conn);
+		} catch(Exception e) {
+			rollback(conn);
+			throw e;
+		}
+		return result;
+	}
+
+	
+	/**
+	 * 첨부파일 삭제
+	 */
+	public int deleteAttachment(String attachNo) {
+		Connection conn = getConnection();
+		int result = 0;
+		try {
+			result = boardDao.deleteAttachment(conn,attachNo);
+			commit(conn);
+		} catch(Exception e) {
+			rollback(conn);
+			throw e;
+		}
+		return result;
+	}
+	
+	/**
+	 * 게시물 댓글작성
+	 */
+	public int insertBoardComment(BoardComment bc) {
+		Connection conn = getConnection();
+		int result = 0;
+		try {
+			result = boardDao.insertBoardComment(conn,bc);
+			commit(conn);
+		} catch(Exception e) {
+			rollback(conn);
+			throw e;
+		}
+		return result;
+	}
+
+	/**
+	 * 게시물 댓글 조회
+	 */
+	public List<BoardComment> selectBoardCommentList(int no) {
+		Connection conn = getConnection();
+		List<BoardComment> list = boardDao.selectBoardCommentList(conn,no);
+		close(conn);
+		return list;
+	}
+
+	/**
+	 * 게시물 댓글 삭제
+	 */
+	public int deleteBoardComment(int no) {
+		Connection conn = getConnection();
+		int result = 0;
+		try {
+			result = boardDao.deleteBoardComment(conn,no);
 			commit(conn);
 		} catch(Exception e) {
 			rollback(conn);

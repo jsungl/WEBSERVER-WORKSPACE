@@ -19,7 +19,6 @@
 <fullyQualifiedTypeName name="java.util.List"/>
 <fullyQualifiedTypeName name="member.model.vo.Member"/>
 <fullyQualifiedTypeName name="member.model.service.MemberService"/>
-<fullyQualifiedTypeName name="common.MvcUtils"/>
 <fullyQualifiedTypeName name="java.sql.Date"/>
 <fullyQualifiedTypeName name="java.util.Properties"/>
 <fullyQualifiedTypeName name="common.JDBCTemplate"/>
@@ -28,5 +27,8 @@
 <fullyQualifiedTypeName name="common.MvcFileRenamePolicy"/>
 <fullyQualifiedTypeName name="board.model.service.BoardService"/>
 <fullyQualifiedTypeName name="board.model.vo.Board"/>
+<fullyQualifiedTypeName name="board.model.exception.BoardException"/>
+<fullyQualifiedTypeName name="common.MvcUtils"/>
 <fullyQualifiedTypeName name="board.model.vo.Attachment"/>
+<fullyQualifiedTypeName name="java.io.File"/>
 </qualifiedTypeNameHistroy>
