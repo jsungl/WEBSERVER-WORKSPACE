@@ -6,4 +6,7 @@
   <server auto-publish-setting="2" auto-publish-time="1" configuration-id="/Servers/hellomvc-server-config" deployDir="wtpwebapps" hostname="localhost" id="hellomvc-server" name="hellomvc-server" runtime-id="Apache Tomcat v9.0" serveModulesWithoutPublish="true" server-type="org.eclipse.jst.server.tomcat.90" server-type-id="org.eclipse.jst.server.tomcat.90" start-timeout="45" stop-timeout="15" testEnvironment="true" timestamp="2">
     <list key="modules" value0="02_hellomvc::org.eclipse.jst.jee.server:02_hellomvc::jst.web::4.0"/>
   </server>
+  <server auto-publish-setting="2" auto-publish-time="1" configuration-id="/Servers/ajax-server-config" deployDir="wtpwebapps" hostname="localhost" id="ajax-server" name="ajax-server" runtime-id="Apache Tomcat v9.0" serveModulesWithoutPublish="true" server-type="org.eclipse.jst.server.tomcat.90" server-type-id="org.eclipse.jst.server.tomcat.90" start-timeout="45" stop-timeout="15" testEnvironment="true" timestamp="2">
+    <list key="modules" value0="03_ajax::org.eclipse.jst.jee.server:03_ajax::jst.web::4.0"/>
+  </server>
 </servers>

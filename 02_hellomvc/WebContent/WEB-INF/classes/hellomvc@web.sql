@@ -92,7 +92,6 @@ select count(*) cnt from member where member_name like '%정%';
 
 
 
-
 select *
 from (
     select row_number() over(order by enroll_date desc) rnum, 
@@ -102,7 +101,123 @@ from (
 where rnum between 1 and 10;
 
 
+--drop table board_comment;
 
 
+
+--댓글 테이블 작성
+create table board_comment (
+    no number,
+    comment_level number default 1,
+    writer varchar2(15),
+    content varchar2(2000),
+    board_no number,
+    comment_ref number,
+    reg_date date default sysdate,
+    constraint pk_board_comment_no primary key(no),
+    constraint fk_board_comment_writer foreign key(writer) 
+                                                                 references member(member_id)
+                                                                 on delete set null,
+    constraint fk_board_comment_board_no foreign key(board_no) 
+                                                                 references board(no)
+                                                                 on delete cascade,
+    constraint fk_board_comment_ref foreign key(comment_ref) 
+                                                                 references board_comment(no)
+                                                                 on delete cascade
+);
+
+comment on column board_comment.no is '게시판댓글번호';
+comment on column board_comment.comment_level is '게시판댓글 레벨';
+comment on column board_comment.writer is '게시판댓글 작성자';
+comment on column board_comment.content is '게시판댓글';
+comment on column board_comment.board_no is '참조원글번호';
+comment on column board_comment.comment_ref is '게시판댓글 참조번호';
+comment on column board_comment.reg_date is '게시판댓글 작성일';
+
+create sequence seq_board_comment_no;
+
+--drop sequence seq_board_comment_no;
+
+select * from board;
+select * from board_comment;
+
+--샘플 테스트
+--78번글
+
+--댓글추가
+insert into board_comment(no,comment_level, writer, content, board_no, comment_ref)
+values(seq_board_comment_no.nextval, 1, 'claw', '잘읽었습니다.', 78, null);
+
+insert into board_comment(no,comment_level, writer, content, board_no, comment_ref)
+values(seq_board_comment_no.nextval, 1, 'elania', '멋지네요', 78, null);
+
+insert into board_comment(no,comment_level, writer, content, board_no, comment_ref)
+values(seq_board_comment_no.nextval, 1, 'puma', '좋은정보입니다', 78, null);
+
+--대댓글 추가
+insert into board_comment(no, comment_level, writer, content, board_no, comment_ref)
+values(seq_board_comment_no.nextval, 2, 'honggd', '읽어주셔서 감사합니다.', 78, 1);
+
+insert into board_comment(no, comment_level, writer, content, board_no, comment_ref)
+values(seq_board_comment_no.nextval, 2, 'honggd', '거짓말~', 78, 1);
+
+insert into board_comment(no, comment_level, writer, content, board_no, comment_ref)
+values(seq_board_comment_no.nextval, 2, 'honggd', '뻥이야~', 78, 2);
+
+
+select * from board_comment;
+
+
+--계층형 쿼리
+--기준컬럼을 이용해 행간의 수직구조를 표현한 쿼리
+--댓글,조직도,메뉴등의 트리구조를 표현할수있다
+-- start with 최상위 행을 지정
+-- connect by 부모행 - 자식행의 관계작성. 부모행의 컬럼앞에 prior키워드를 작성
+
+select *
+from board_comment
+start with comment_level = 1
+connect by prior no = comment_ref;
+
+--특정 게시글의 댓글가져오기
+select level, bc.*
+from board_comment bc
+where board_no = 78
+start with comment_level = 1
+connect by prior no = comment_ref --부모행의 no를 자식행의 ref가 참조
+order siblings by reg_date;
+
+
+--select bc.* from board_comment bc where board_no = ? start with comment_level = 1 connect by prior no = comment_ref order siblings by reg_date
+
+
+
+select lpad(' ',(level - 1) * 5) || content,
+            level,
+            bc.*
+from board_comment bc
+start with comment_level = 1
+connect by prior no = comment_ref
+order siblings by reg_date desc;
+
+
+
+commit;
+
+--게시물 및 각 게시물 댓글갯수 조회
+--select * 
+--from ( 
+--    select (select count(*) from board_comment where board_no = b.no) comment_cnt,
+--        row_number() over(order by b.no desc) rnum,
+--        b.*, 
+--        a.no attach_no,
+--        a.original_filename,
+--        a.renamed_filename,
+--        a.status
+--    from board b
+--        left join attachment a
+--            on b.no = a.board_no and a.status = 'Y'
+--    ) b 
+--where rnum between 1 and 10;
 
 
