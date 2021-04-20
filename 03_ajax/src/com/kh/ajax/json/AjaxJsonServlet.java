@@ -51,7 +51,7 @@ public class AjaxJsonServlet extends HttpServlet {
 		response.setContentType("application/json; charset=utf-8"); //응답헤더
 		Gson gson = new Gson();
 //		String jsonStr = gson.toJson(list); //json으로 변환
-		String jsonStr = gson.toJson(searchId != null ? member : list);
+		String jsonStr = gson.toJson(searchId != null ? member : list);//json으로 변환
 		System.out.println("jsonStr = " + jsonStr);
 		PrintWriter out = response.getWriter(); //출력스트림을 사용해서 응답메세지작성
 		out.print(jsonStr);

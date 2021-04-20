@@ -19,10 +19,13 @@ import com.kh.member.model.vo.Member;
 public class AjaxHtmlServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
+	
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		//System.out.println("AjaxHtmlServlet실행");
+		
 		//1. 업무로직
 		List<Member> list = new ArrayList<>();
 		list.add(new Member("hwangj","황제성","hwang.jpg"));
@@ -37,5 +40,5 @@ public class AjaxHtmlServlet extends HttpServlet {
 		
 		
 	}
-
+	
 }
