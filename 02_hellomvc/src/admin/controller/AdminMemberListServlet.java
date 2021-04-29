@@ -53,11 +53,11 @@ public class AdminMemberListServlet extends HttpServlet {
 		//cPage = 2 : 11 ~ 20
 		//cPage = 3 : 21 ~ 30
 		int start = (cPage - 1) * numPerPage + 1;
-		int end = cPage * numPerPage;
 //		int start = end - (numPerPage - 1);
+		int end = cPage * numPerPage;
 		List<Member> list = memberService.selectAll(start,end);
 		int totalContents = memberService.selectMemberCounts(); //전체회원수 구하기
-		System.out.println("totalContents = " + totalContents);
+//		System.out.println("totalContents = " + totalContents);
 
 //		List<Member> list = memberService.selectAll();
 //		for(Member m : list) {

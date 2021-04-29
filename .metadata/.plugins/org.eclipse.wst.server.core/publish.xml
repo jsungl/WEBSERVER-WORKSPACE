@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <publish-info>
   <server id="helloweb-server" path="publish0.dat"/>
+  <server id="actiontag-el-server" path="publish3.dat"/>
   <server id="hellomvc-server" path="publish1.dat"/>
   <server id="ajax-server" path="publish2.dat"/>
 </publish-info>

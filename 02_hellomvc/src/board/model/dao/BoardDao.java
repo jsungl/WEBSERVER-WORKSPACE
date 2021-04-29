@@ -35,7 +35,13 @@ public class BoardDao {
 			e.printStackTrace();
 		}
 	}
+	
+	
+	
 
+	
+	
+	
 	/**
 	 * 전체 게시물 수
 	 */
@@ -422,6 +428,11 @@ public class BoardDao {
 		
 		return result;
 	}
+	
+	
+	
+	
+	
 
 	
 }

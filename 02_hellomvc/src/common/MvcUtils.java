@@ -63,7 +63,7 @@ public class MvcUtils {
 	 */
 	public static String getPageBar(int cPage, int numPerPage, int totalContents, String url) {
 		StringBuilder pageBar = new StringBuilder();
-		int totalPage = (int)Math.ceil((double)totalContents / numPerPage); //12
+		int totalPage = (int)Math.ceil((double)totalContents / numPerPage); //총 12page
 		int pageBarSize = 5;
 		//System.out.println("urlIndexof@MvcUtils = " + url.indexOf("?")); 
 		//cPage이외의 다른 사용자입력값이 있는경우대비 (/mvc/admin/memberFinder?type=id&kw=abc&cPage=  )
