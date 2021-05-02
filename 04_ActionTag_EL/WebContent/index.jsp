@@ -32,7 +32,9 @@
 	<h2>jstl</h2>
 	<ul>
 		<li><a href="${pageContext.request.contextPath}/jstl/coreBasics.jsp">core basics</a></li>
-		<li><a href="${pageContext.request.contextPath}/jstl/coreBasics.jsp?num1=123&num2=456">core basics 사용자입력값 전달</a></li>
+		<li><a href="${pageContext.request.contextPath}/jstl/coreBasics.do?num1=123&num2=456">core basics 사용자입력값 전달</a></li>
+		<li><a href="${pageContext.request.contextPath}/jstl/fmtBasics.jsp">fmt basics</a></li>
+		<li><a href="${pageContext.request.contextPath}/jstl/fnBasics.jsp">fn basics</a></li>
 	</ul>
 	
 	
