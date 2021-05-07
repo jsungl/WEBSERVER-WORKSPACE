@@ -12,4 +12,7 @@
   <server auto-publish-setting="2" auto-publish-time="1" configuration-id="/Servers/actiontag-el-server-config" deployDir="wtpwebapps" hostname="localhost" id="actiontag-el-server" name="actiontag-el-server" runtime-id="Apache Tomcat v9.0" saveSeparateContextFiles="false" serveModulesWithoutPublish="true" server-type="org.eclipse.jst.server.tomcat.90" server-type-id="org.eclipse.jst.server.tomcat.90" start-timeout="45" stop-timeout="15" testEnvironment="true" timestamp="3">
     <list key="modules" value0="04_ActionTag_EL::org.eclipse.jst.jee.server:04_ActionTag_EL::jst.web::4.0"/>
   </server>
+  <server auto-publish-setting="2" auto-publish-time="1" configuration-id="/Servers/maven-mybatis-server-config" deployDir="wtpwebapps" hostname="localhost" id="maven-mybatis-server" name="maven-mybatis-server" runtime-id="Apache Tomcat v9.0" server-type="org.eclipse.jst.server.tomcat.90" server-type-id="org.eclipse.jst.server.tomcat.90" start-timeout="45" stop-timeout="15" testEnvironment="true" timestamp="1">
+    <list key="modules" value0="maven-mybatis::org.eclipse.jst.jee.server:maven-mybatis::jst.web::3.1"/>
+  </server>
 </servers>

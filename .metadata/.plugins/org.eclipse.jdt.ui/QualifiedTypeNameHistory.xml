@@ -4,7 +4,6 @@
 <fullyQualifiedTypeName name="java.sql.PreparedStatement"/>
 <fullyQualifiedTypeName name="java.sql.ResultSet"/>
 <fullyQualifiedTypeName name="member.model.dao.MemberDao"/>
-<fullyQualifiedTypeName name="java.io.FileReader"/>
 <fullyQualifiedTypeName name="javax.servlet.http.HttpSessionBindingListener"/>
 <fullyQualifiedTypeName name="javax.servlet.http.Cookie"/>
 <fullyQualifiedTypeName name="java.text.SimpleDateFormat"/>
@@ -13,7 +12,6 @@
 <fullyQualifiedTypeName name="java.util.Base64"/>
 <fullyQualifiedTypeName name="member.model.vo.Member"/>
 <fullyQualifiedTypeName name="member.model.service.MemberService"/>
-<fullyQualifiedTypeName name="java.util.Properties"/>
 <fullyQualifiedTypeName name="common.JDBCTemplate"/>
 <fullyQualifiedTypeName name="com.oreilly.servlet.MultipartRequest"/>
 <fullyQualifiedTypeName name="com.oreilly.servlet.multipart.DefaultFileRenamePolicy"/>
@@ -28,7 +26,6 @@
 <fullyQualifiedTypeName name="java.io.Serializable"/>
 <fullyQualifiedTypeName name="board.model.vo.BoardCommentCount"/>
 <fullyQualifiedTypeName name="com.kh.member.model.vo.Member"/>
-<fullyQualifiedTypeName name="com.google.gson.Gson"/>
 <fullyQualifiedTypeName name="javax.naming.Context"/>
 <fullyQualifiedTypeName name="javax.naming.InitialContext"/>
 <fullyQualifiedTypeName name="javax.sql.DataSource"/>
@@ -37,12 +34,28 @@
 <fullyQualifiedTypeName name="java.util.ArrayList"/>
 <fullyQualifiedTypeName name="java.sql.SQLException"/>
 <fullyQualifiedTypeName name="javax.servlet.RequestDispatcher"/>
-<fullyQualifiedTypeName name="java.util.Date"/>
-<fullyQualifiedTypeName name="javax.servlet.http.HttpSession"/>
 <fullyQualifiedTypeName name="javax.servlet.ServletContext"/>
 <fullyQualifiedTypeName name="java.util.Arrays"/>
 <fullyQualifiedTypeName name="com.kh.person.model.vo.Person"/>
 <fullyQualifiedTypeName name="java.util.List"/>
+<fullyQualifiedTypeName name="com.google.gson.Gson"/>
+<fullyQualifiedTypeName name="java.util.Properties"/>
+<fullyQualifiedTypeName name="java.io.FileReader"/>
 <fullyQualifiedTypeName name="java.util.Map"/>
 <fullyQualifiedTypeName name="java.util.HashMap"/>
+<fullyQualifiedTypeName name="javax.servlet.http.HttpServletRequest"/>
+<fullyQualifiedTypeName name="javax.servlet.http.HttpServletResponse"/>
+<fullyQualifiedTypeName name="javax.servlet.ServletException"/>
+<fullyQualifiedTypeName name="java.io.IOException"/>
+<fullyQualifiedTypeName name="java.util.Set"/>
+<fullyQualifiedTypeName name="com.kh.mybatis.common.MethodNotAllowedException"/>
+<fullyQualifiedTypeName name="java.util.Date"/>
+<fullyQualifiedTypeName name="com.kh.mybatis.student.model.vo.Student"/>
+<fullyQualifiedTypeName name="javax.servlet.http.HttpSession"/>
+<fullyQualifiedTypeName name="org.apache.ibatis.session.SqlSessionFactoryBuilder"/>
+<fullyQualifiedTypeName name="org.apache.ibatis.io.Resources"/>
+<fullyQualifiedTypeName name="java.io.InputStream"/>
+<fullyQualifiedTypeName name="org.apache.ibatis.session.SqlSessionFactory"/>
+<fullyQualifiedTypeName name="com.kh.mybatis.common.MybatisUtils"/>
+<fullyQualifiedTypeName name="org.apache.ibatis.session.SqlSession"/>
 </qualifiedTypeNameHistroy>

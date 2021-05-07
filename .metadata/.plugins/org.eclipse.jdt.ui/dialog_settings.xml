@@ -12,7 +12,7 @@
 	<section name="JavaElementSearchActions">
 	</section>
 	<section name="BuildPathsPropertyPage">
-		<item key="pageIndex" value="3"/>
+		<item key="pageIndex" value="0"/>
 	</section>
 	<section name="OptionalMessageDialog.hide.">
 		<item key="org.eclipse.jdt.ui.typecomment.deprecated" value="true"/>
@@ -71,8 +71,8 @@
 		<item key="Objects.equals &amp; Objects.hash" value="false"/>
 	</section>
 	<section name="DialogBounds_OverrideMethodDialog">
-		<item key="DIALOG_X_ORIGIN" value="1042"/>
-		<item key="DIALOG_Y_ORIGIN" value="251"/>
+		<item key="DIALOG_X_ORIGIN" value="992"/>
+		<item key="DIALOG_Y_ORIGIN" value="287"/>
 		<item key="DIALOG_WIDTH" value="818"/>
 		<item key="DIALOG_HEIGHT" value="810"/>
 		<item key="DIALOG_FONT_NAME" value="1|맑은 고딕|9.0|0|WINDOWS|1|-18|0|0|0|400|0|0|0|1|0|0|0|0|맑은 고딕"/>

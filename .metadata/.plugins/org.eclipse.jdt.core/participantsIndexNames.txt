@@ -9,6 +9,8 @@ C:\Workspaces\web_server_workspace\.metadata\.plugins\org.eclipse.jst.jsp.core\j
 \01_helloweb\src
 C:\Workspaces\web_server_workspace\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\747495912.index
 \03_ajax\src
+C:\Workspaces\web_server_workspace\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\4141632116.index
+\maven-mybatis\src\main\java
 C:\Workspaces\web_server_workspace\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\3058729043.index
 \02_hellomvc\src
 C:\Workspaces\web_server_workspace\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\1645140852.index
