@@ -18,6 +18,10 @@ public interface StudentDao {
 
 	Map<String, Object> selectOneStudentMap(SqlSession session, int no);
 
+	int updateStudent(SqlSession session, Student student);
+
+	int deleteStudent(SqlSession session, Student student);
+
 	
 
 	

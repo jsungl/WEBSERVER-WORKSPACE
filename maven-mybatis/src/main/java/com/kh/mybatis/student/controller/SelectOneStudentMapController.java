@@ -18,12 +18,14 @@ public class SelectOneStudentMapController extends AbstractController {
 
 	@Override
 	public String doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		System.out.println("doGet@SelectOneStudentMapController");
 		//1. 사용자입력값 처리
 		int no = Integer.parseInt(request.getParameter("no"));
+		System.out.println("no@SelectOneStudentMapController = " + no);
 		
 		//2. 업무로직
 		Map<String, Object> student = studentService.selectOneStudentMap(no);
-		System.out.println("student@controller = " + student);
+		System.out.println("student@SelectOneStudentMapController = " + student);
 		
 		//3. json문자열로 변환후, 응답메세지에 출력
 		response.setContentType("application/json; charset=utf-8");

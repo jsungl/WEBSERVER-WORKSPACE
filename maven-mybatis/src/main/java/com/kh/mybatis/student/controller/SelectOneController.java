@@ -17,6 +17,7 @@ public class SelectOneController extends AbstractController {
 	//조회라 doGet만
 	@Override
 	public String doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		System.out.println("doGet@SelectOneController");
 		try {
 			//1. 사용자 입력값
 			int no = 0;
@@ -30,11 +31,11 @@ public class SelectOneController extends AbstractController {
 			//2. 업무로직
 			//2-a. 전체학생수 조회
 			int total = studentService.selectStudentCount();
-			System.out.println("total@controller = " + total);
+			System.out.println("total@SelectOneController = " + total);
 			
 			if(no != 0) {
 				Student student = studentService.selectOneStudent(no);
-				System.out.println("student@controller = " + student);
+				System.out.println("student@SelectOneController = " + student);
 				request.setAttribute("student", student);
 			}
 			

@@ -39,4 +39,14 @@ public class StudentDaoImpl implements StudentDao {
 		return session.selectOne("student.selectOneStudentMap", no);
 	}
 
+	@Override
+	public int updateStudent(SqlSession session, Student student) {
+		return session.update("student.updateStudent", student);
+	}
+
+	@Override
+	public int deleteStudent(SqlSession session, Student student) {
+		return session.delete("student.deleteStudent", student);
+	}
+
 }

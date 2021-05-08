@@ -101,7 +101,8 @@
   </select> 	
 
 
-  <!-- key값을 내맘대로
+  <!-- key값을 내맘대로 1번-->
+  <!--
   <select id="selectOneStudentMap" resultType="hashmap">
   	select
   		no "no",
@@ -115,6 +116,7 @@
   </select> 
   -->
 
+  <!-- key값을 내맘대로 2번-->
   <select id="selectOneStudentMap" resultMap="studentMap">
   	select
   		*
@@ -131,9 +133,23 @@
   </resultMap>
 
 
+  <update id="updateStudent" parameterType="student">
+  	update
+  		student
+  	set
+  		name = #{name},
+  		tel = #{tel}
+  	where
+  		no = #{no}
+  	
+  </update>
 
-
-
+  <delete id="deleteStudent" parameterType="student">
+  	delete from
+  		student
+  	where
+  		no = #{no}
+  </delete>
 
 
 

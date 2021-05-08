@@ -19,6 +19,8 @@ public class InsertStudentMapController extends AbstractController {
 	@Override
 	public String doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		System.out.println("doPost@InsertStudentMapController");
+		
 		try {
 			//1. 사용자 입력값 
 			String name = request.getParameter("name");
@@ -26,7 +28,7 @@ public class InsertStudentMapController extends AbstractController {
 			Map<String, Object> student = new HashMap<>();
 			student.put("name", name);
 			student.put("tel", tel);
-			System.out.println("studentMap@controller = " + student);
+			System.out.println("studentMap@InsertStudentMapController = " + student);
 			
 			//2. 업무로직
 			int result = studentService.insertStudentMap(student);

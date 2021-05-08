@@ -52,7 +52,8 @@ public class DispatcherServlet extends HttpServlet {
 		//url-pattern : String - Controller객체:AbstractController
 		
 		Set<String> keys = prop.stringPropertyNames(); 
-		System.out.println("keys@Dispatcher = " + keys); // /student/insertStudent.do
+		System.out.println("keys@Dispatcher = " + keys); 
+		// /student/insertStudent.do, /student/selectOneStudentMap.do, /student/selectOne.do, /student/insertStudentMap.do
 		for(String key : keys) {
 			//key : 요청주소
 			String value = prop.getProperty(key); //클래스명
@@ -63,16 +64,17 @@ public class DispatcherServlet extends HttpServlet {
 				//map객체에 추가
 				urlControllerMap.put(key, controller);
 				System.out.println("key = " + key + ", controller = " + controller);
-				// key = /student/insertStudent.do, controller = com.kh.mybatis.student.controller.InsertStudentController@432f76ef 
+				// ex) key = /student/insertStudent.do, controller = com.kh.mybatis.student.controller.InsertStudentController@432f76ef 
 			}catch(ClassNotFoundException | InstantiationException | IllegalAccessException e) {
 				e.printStackTrace();
 			}
 		}
-		System.out.println("urlControllerMap@init = " + urlControllerMap); //{key=controller}
+		System.out.println("urlControllerMap@init = " + urlControllerMap); //{key1=controller1,key2=controller2,key3=controller3,....}
 	}
 
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		System.out.println("--------------doGet메소드 실행@DispatcherServlet--------------");
 		//1. 요청주소 가져오기
 		String uri = request.getRequestURI(); //  /maven-mybatis/student/insertStudent.do
 		int beginIndex = request.getContextPath().length(); // /maven-mybatis 길이값

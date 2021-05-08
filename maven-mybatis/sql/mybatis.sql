@@ -21,10 +21,14 @@ create table student(
 );
 
 create sequence seq_student_no;
-
+--drop sequence seq_student_no;
 
 select * from student;
+--select seq_student_no.currval
+--from dual;
+--select seq_student_no.nextval
+--from dual;
 
-
+select * from user_sequences;
 
 

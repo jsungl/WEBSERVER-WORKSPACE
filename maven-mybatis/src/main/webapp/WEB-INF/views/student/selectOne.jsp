@@ -20,6 +20,12 @@ table.tbl-student th{text-align:right;}
 table.tbl-student td{text-align:left;}
 table.tbl-student tr:last-of-type td:first-child{text-align:center;}
 </style>
+<script>
+<c:if test="${not empty msg}">
+alert("${msg}");
+</c:if>
+<c:remove var="msg" scope="session"/>
+</script>
 </head>
 <body>
 	<div id="student-container">
@@ -76,10 +82,37 @@ table.tbl-student tr:last-of-type td:first-child{text-align:center;}
 					<td colspan="2">
 						<input type="submit" value="수정" />
 						<input type="button" value="삭제" onclick="deleteStudent();" />
+						<input type="hidden" id="chkChange" value="0" />
 					</td>
 				</tr>
 			</table>
 		</form>
+		<script>
+		
+		$(document.studentUpdateFrm).find("[name=name]").change(function(){
+			$("#chkChange").val(1);
+		});
+		$(document.studentUpdateFrm).find("[name=tel]").change(function(){
+			$("#chkChange").val(1);
+		});
+		
+		$(document.studentUpdateFrm).submit((e) => {
+			
+			$("#chkChange").val(0);
+		});
+		
+		function deleteStudent(){
+			if(confirm("정말 삭제하시겠습니까?")){
+				if($("#chkChange").val() == 1){
+					alert('변경된 정보가 있습니다. 수정버튼을 먼저눌러주세요');
+				}else {
+					$(document.studentUpdateFrm).attr("action", "${pageContext.request.contextPath}/student/deleteStudent.do")
+												.attr("method", "POST")
+												.submit();
+				}						
+			}
+		}
+		</script>
 		</c:if>
 		
 		<hr />
