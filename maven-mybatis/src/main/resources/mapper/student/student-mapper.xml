@@ -150,8 +150,27 @@
   	where
   		no = #{no}
   </delete>
+  
+  
+  <select id="selectStudentList" resultType="student"> <!-- resultType : 여러행을 조회해도 한행의 type을 적어준다 -->
+  	select
+  		*
+  	from
+  		student
+  	order by
+  		no desc
+  
+  </select>
 
-
+  <select id="selectStudentMapList" resultMap="studentMap">
+  	select
+  		*
+  	from
+  		student
+  	order by
+  		no desc
+  </select>
+  
 
 
 </mapper>

@@ -32,3 +32,44 @@ select * from student;
 select * from user_sequences;
 
 
+--oracle synonym객체
+--동의어객체, 별칭객체
+
+--mybatis계정에서 kh계정의 table접근(관리자계정이나 kh계정에서 접근권한을 부여해야됨)
+select * from kh.employee; --별칭 emp
+select * from kh.department; --별칭 dept
+select * from kh.job; --별칭 job
+
+--동의어(별칭) 생성
+--resource role에 create synonym은 포함되어 있지않다.(권한필요)
+create synonym emp for kh.employee;
+create synonym dept for kh.department;
+create synonym job for kh.job;
+-- 간단하게 사용가능
+select * from emp;
+select * from dept;
+select * from job;
+--=================================================
+--관리자계정
+--=================================================
+--수정권한까지
+--grant all on kh.employee to mybatis; 
+--조회권한만
+--grant select on kh.department to mybatis; 
+--grant select on kh.job to mybatis; 
+
+--grant create synonym to mybatis;
+--=================================================
+
+
+
+
+
+
+
+
+
+
+
+
+
