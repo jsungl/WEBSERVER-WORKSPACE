@@ -20,7 +20,7 @@ public interface StudentDao {
 
 	int updateStudent(SqlSession session, Student student);
 
-	int deleteStudent(SqlSession session, Student student);
+	int deleteStudent(SqlSession session, int no);
 
 	
 

@@ -97,11 +97,11 @@ public class StudentServiceImpl implements StudentService {
 	}
 
 	@Override
-	public int deleteStudent(Student student) {
-		SqlSession session = getSqlSession(); 
+	public int deleteStudent(int no) {
 		int result = 0;
+		SqlSession session = getSqlSession();
 		try {
-			result = studentDao.deleteStudent(session,student);
+			result = studentDao.deleteStudent(session, no);
 			session.commit();
 		} catch(Exception e) {
 			session.rollback();
@@ -111,4 +111,6 @@ public class StudentServiceImpl implements StudentService {
 		}
 		return result;
 	}
+
+	
 }

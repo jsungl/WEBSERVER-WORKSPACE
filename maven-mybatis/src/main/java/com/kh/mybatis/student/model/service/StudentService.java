@@ -18,6 +18,6 @@ public interface StudentService {
 
 	int updateStudent(Student student);
 
-	int deleteStudent(Student student);
+	int deleteStudent(int no);
 
 }

@@ -45,8 +45,8 @@ public class StudentDaoImpl implements StudentDao {
 	}
 
 	@Override
-	public int deleteStudent(SqlSession session, Student student) {
-		return session.delete("student.deleteStudent", student);
+	public int deleteStudent(SqlSession session, int no) {
+		return session.delete("student.deleteStudent", no);
 	}
 
 }

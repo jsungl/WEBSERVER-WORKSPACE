@@ -87,7 +87,17 @@ alert("${msg}");
 				</tr>
 			</table>
 		</form>
+		<%-- <form name="studentDelFrm" action="${pageContext.request.contextPath}/student/deleteStudent.do" method="POST">
+			<input type="hidden" name="no" value="${param.no}" />
+		</form> --%>
 		<script>
+		
+		/* var deleteStudent = () => {
+			if(confirm("정말 삭제하시겠습니까?")){
+				$(document.studentDelFrm).submit();
+			}
+		}; */
+		
 		
 		$(document.studentUpdateFrm).find("[name=name]").change(function(){
 			$("#chkChange").val(1);
