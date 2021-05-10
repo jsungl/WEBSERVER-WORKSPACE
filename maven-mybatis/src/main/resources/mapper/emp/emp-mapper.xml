@@ -20,4 +20,42 @@
 	<result column="reg_date" property="regDate"/>	  
   </resultMap> -->
   
+  
+  <!--
+   	1. 테이블명, 컬럼명의 식별자를 표현할때 ${column명}
+   	2. 데이터를 표현 #{value}
+   
+  -->
+  <select id="search1" resultType="map">
+  	select
+  		*
+  	from
+  		emp
+  	where
+  		${searchType} like '%' || #{searchKeyword} || '%'
+  
+  </select>
+  
+  <select id="search2" resultType="map">
+  	select
+  		*
+  	from (
+	  	select
+	  		e.*,
+	  		decode(substr(emp_no,8,1), '1', '남', '3', '남', '여') gender
+	  	from
+	  		emp e
+	  	) e
+	<where> <!-- where태그 내부에 and/or 먼저오면 제거, where태그 몸통이 비었다면 where키워드 제거 -->
+		<if test="gender != null and gender != '' ">
+	  	gender = #{gender}
+	  	</if>
+	  <if test="searchType != null and searchType != '' ">
+	  and
+	  	${searchType} like '%' || #{searchKeyword} || '%'
+	  </if>
+	</where>	
+  </select>
+  
+  
 </mapper>

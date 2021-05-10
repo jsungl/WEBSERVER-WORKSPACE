@@ -13,7 +13,7 @@ import com.kh.mybatis.common.AbstractController;
 import com.kh.mybatis.emp.model.service.EmpService;
 import com.kh.mybatis.emp.model.service.EmpServiceImpl;
 
-public class EmpSearchController1 extends AbstractController {
+public class EmpSearchController2 extends AbstractController {
 
 	private EmpService empService = new EmpServiceImpl();
 
@@ -24,20 +24,18 @@ public class EmpSearchController1 extends AbstractController {
 			//1. 사용자입력값
 			String searchType = request.getParameter("searchType");
 			String searchKeyword = request.getParameter("searchKeyword");
+			String gender = request.getParameter("gender");
+			
+			
 			
 			Map<String,Object> param = new HashMap<>();
 			param.put("searchType", searchType);
 			param.put("searchKeyword", searchKeyword);
-			
+			param.put("gender", gender); //null일수있다.
 			System.out.println("param@EmpSearchController1 = " + param);
 			
 			//2. 업무로직
-			List<Map<String, Object>> list = null;
-			if(searchType == null || searchKeyword == null)
-				list = empService.selectAllEmp();
-			else
-				list = empService.search1(param);
-			
+			List<Map<String, Object>> list = empService.search2(param);
 			System.out.println("list@EmpSearchController1 = " + list);
 		
 		
@@ -53,7 +51,7 @@ public class EmpSearchController1 extends AbstractController {
 		
 		
 		
-		return "emp/search1";
+		return "emp/search2";
 	}
 	
 	
