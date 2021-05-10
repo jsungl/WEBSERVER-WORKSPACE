@@ -18,21 +18,23 @@ public class EmpSearchController1 extends AbstractController {
 
 	@Override
 	public String doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//1. 사용자입력값
+		try {
+		
+			//1. 사용자입력값
+		
+			//2. 업무로직
+			List<Map<String, Object>> list = empService.selectAllEmp();
+			System.out.println("list@EmpSearchController1 = " + list);
 		
 		
-		
-		//2. 업무로직
-		List<Map<String, Object>> list = empService.selectAllEmp();
-		System.out.println("list@EmpSearchController1 = " + list);
+			//3. jsp위임
+			request.setAttribute("list", list);
 		
 		
-		//3. jsp위임
-		request.setAttribute("list", list);
-		
-		
-		
-		
+		} catch(Exception e){
+			e.printStackTrace();
+			throw e;
+		}
 		
 		
 		

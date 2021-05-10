@@ -11,6 +11,8 @@
   	<typeAlias type="com.kh.mybatis.student.model.vo.Student" alias="student"></typeAlias>
   </typeAliases>	
 
+
+
 	<!-- 접속할DB정보설정 -->
   <environments default="development">
     <environment id="development">
@@ -25,5 +27,7 @@
   </environments>
   <mappers>
     <mapper resource="mapper/student/student-mapper.xml"/>
+  	<mapper resource="mapper/emp/emp-mapper.xml"/>
   </mappers>
+  
 </configuration>
