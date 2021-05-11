@@ -11,6 +11,18 @@ public interface EmpService {
 
 	List<Map<String, Object>> search2(Map<String, Object> param);
 
+	List<Map<String, String>> selectJobList();
+
+	List<Map<String, Object>> search3(Map<String, Object> param);
+
+	List<Map<String, String>> selectDeptList();
+
+	Map<String, Object> selectOneEmpMap(String empId);
+
+	int updateEmp(Map<String, Object> param);
+
+	
+
 	
 
 	

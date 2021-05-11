@@ -63,7 +63,24 @@ select * from job;
 
 
 
+--직급코드가 j1,j2,j3인 사원조회
 
+
+
+--인턴사원까지 조회
+select *
+from (
+		  	select
+		  		e.*,
+		  		d.dept_title,
+		  		j.job_name
+		  	from
+		  		emp e
+		  			left join dept d
+		  				on e.dept_code = d.dept_id
+                    left join job j
+		  				on e.job_code = j.job_code
+        ) e;
 
 
 

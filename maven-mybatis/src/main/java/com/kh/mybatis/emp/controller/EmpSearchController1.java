@@ -20,7 +20,7 @@ public class EmpSearchController1 extends AbstractController {
 	@Override
 	public String doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
-		
+			System.out.println("--------------doGet메소드 실행@EmpSearchController1--------------");
 			//1. 사용자입력값
 			String searchType = request.getParameter("searchType");
 			String searchKeyword = request.getParameter("searchKeyword");

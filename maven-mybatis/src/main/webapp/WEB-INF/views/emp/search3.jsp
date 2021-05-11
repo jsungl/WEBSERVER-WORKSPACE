@@ -1,8 +1,23 @@
+<%@page import="java.util.List"%>
+<%@page import="java.util.Arrays"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%
+	//사용자 요청값(String[])을 List로 변환. contains메소드 사용을 위해 List로 변환.
+	String[] jobCodeArr = request.getParameterValues("jobCode");
+	String[] deptCodeArr = request.getParameterValues("deptId");
+	
+	List<String> jobCodeList = 
+			jobCodeArr != null ? Arrays.asList(jobCodeArr) : null;
+	List<String> deptCodeList = 
+			deptCodeArr != null ? Arrays.asList(deptCodeArr) : null;
+	pageContext.setAttribute("jobCodeList", jobCodeList);
+	pageContext.setAttribute("deptCodeList", deptCodeList);
+%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -31,7 +46,7 @@ div#search-container{
 input#btn-search { width: 350px; background: lightslategray; color: white; box-shadow: 0px 3px 15px grey; }
 table#tbl-search { margin:0 auto; }
 table#tbl-search th,table#tbl-search td {padding:5px 15px;}
-table#tbl-search td {text-align:left;}
+ table#tbl-search td {text-align:left;}
 
 
 
@@ -46,49 +61,33 @@ table#tbl-search td {text-align:left;}
 		<h3>검색</h3>
 		<input type="button" value="초기화" />
 		<table id="tbl-search">
+			<!-- 직급조회 -->
 			<tr>
-				<th colspan="2">
-					<select name="searchType" >
-						<option value="">검색타입</option>
-						<option value="emp_id" ${param.searchType == 'emp_id' ? 'selected' : ''}>사번</option>
-						<option value="emp_name" ${param.searchType eq 'emp_name' ? 'selected' : ''}>사원명</option>
-						<option value="email" ${param.searchType eq 'email' ? 'selected' : ''}>이메일</option>
-						<option value="phone" <c:if test="${param.searchType eq 'phone'}">selected</c:if>>전화번호</option>
-					</select>
-					&nbsp;&nbsp;&nbsp;&nbsp;
-					<input type="search" name="searchKeyword" value="${param.searchKeyword}" />
-				</th>
-			</tr>
-			<!-- 성별 radio 추가 -->
-			<tr>
-				<th>성별</th>
+				<th>직급</th>
 				<td>
-					<input type="radio" name="gender" value='남' id="gender0" ${param.gender eq '남' ? 'checked' : '' }/>
-					<label for="gender0">남</label>
-					<input type="radio" name="gender" value='여' id="gender1" ${param.gender eq '여' ? 'checked' : '' }/>
-					<label for="gender1">여</label>
+				<c:forEach items="${jobList}" var="job">
+					<input type="checkbox" name="jobCode" id="${job.jobCode}" value="${job.jobCode}" 
+					${jobCodeList.contains(job.jobCode) ? 'checked' : ''}/>
+					<label for="${job.jobCode}">${job.jobName}</label>
+				</c:forEach>
 				</td>
 			</tr>
-			<!-- 급여기준 -->
+			<!-- 부서조회(직급조회와  모두 일치하는 사원) 
+				 input:checkbox + label 는 3개마다 개행할것
+				 인턴사원(D0)도 조회될수있도록 할것.
+			-->
 			<tr>
-				<th>급여</th>
+				<th>부서</th>
 				<td>
-					<input type="number" name="salary" min="0" step="500000" value="${ param.salary }"/>
-					<input type="radio" name="salaryCompare" id="salaryCompareGE" value='ge' ${ param.salaryCompare eq 'ge' ? 'checked' : '' }/>
-					<label for="salaryCompareGE">이상</label>
-					<input type="radio" name="salaryCompare" id="salaryCompareLE" value='le' ${ param.salaryCompare eq 'le' ? 'checked' : '' }/>
-					<label for="salaryCompareLE">이하</label>
-				</td>
-			</tr>
-			<!-- @실습문제 : 입사일 조회 -->
-			<tr>
-				<th>입사일</th>
-				<td>
-					<input type="date" name="hire_date" value="${param.hire_date}"/>	
-					<input type="radio" name="hiredateCompare" id="hire_date_le" value='le' ${param.hiredateCompare eq 'le' ? 'checked' : ''}/>
-					<label for="hire_date_le">이전</label>
-					<input type="radio" name="hiredateCompare" id="hire_date_ge" value='ge' ${param.hiredateCompare eq 'ge' ? 'checked' : ''}/>
-					<label for="hire_date_ge">이후</label>
+				<c:forEach items="${deptList}" var="dept" varStatus="vs">
+					<input type="checkbox" name="deptId" id="${dept.deptId}" value="${dept.deptId}"
+					${deptCodeList.contains(dept.deptId) ? 'checked' : ''} />
+					<label for="${dept.deptId}">${dept.deptTitle}</label>
+					<c:if test="${vs.count % 3 eq 0}"><br /></c:if>
+				</c:forEach>
+					<input type="checkbox" name="deptId" id="D0" value="D0" 
+					${deptCodeList.contains('D0') ? 'checked' : ''}/>
+					<label for="D0">인턴</label>
 				</td>
 			</tr>
 			
@@ -111,8 +110,8 @@ table#tbl-search td {text-align:left;}
 			<th>성별</th>
 			<th>이메일</th>
 			<th>전화번호</th>
-			<th>부서코드</th>
-			<th>직급코드</th>
+			<th>부서명</th>
+			<th>직급명</th>
 			<th>급여레벨</th>
 			<th>급여</th><!--원화기호, 세자리마다 콤마표시-->
 			<th>보너스율</th><!--percent로 표시-->
@@ -131,7 +130,9 @@ table#tbl-search td {text-align:left;}
 		<c:forEach items="${list}" var="employee" varStatus="vs">
 			<tr>
 				<td>${vs.count}</td>
-				<td>${employee.EMP_ID}</td>
+				<td>
+					<a href="${pageContext.request.contextPath}/emp/updateEmp.do?empId=${employee.EMP_ID}">${employee.EMP_ID}</a>
+				</td>
 				<td>${employee.EMP_NAME}</td>
 				<td>
 					${fn:substring(employee.EMP_NO,0,7)}*******
@@ -144,8 +145,8 @@ table#tbl-search td {text-align:left;}
 				<td>${employee.GENDER}</td>
 				<td>${employee.EMAIL}</td>
 				<td>${employee.PHONE}</td>
-				<td>${employee.DEPT_CODE}</td>
-				<td>${employee.JOB_CODE}</td>
+				<td>${employee.DEPT_TITLE eq null ? '인턴' : employee.DEPT_TITLE}</td>
+				<td>${employee.JOB_NAME}</td>
 				<td>${employee.SAL_LEVEL}</td>
 				<td>
 					<fmt:formatNumber value="${employee.SALARY}" type="currency"/>
