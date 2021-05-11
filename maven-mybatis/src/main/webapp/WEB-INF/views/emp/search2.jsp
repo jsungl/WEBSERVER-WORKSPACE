@@ -51,9 +51,9 @@ table#tbl-search td {text-align:left;}
 					<select name="searchType" >
 						<option value="">검색타입</option>
 						<option value="emp_id" ${param.searchType == 'emp_id' ? 'selected' : ''}>사번</option>
-						<option value="emp_name" ${param.searchType == 'emp_name' ? 'selected' : ''}>사원명</option>
-						<option value="email" ${param.searchType == 'email' ? 'selected' : ''}>이메일</option>
-						<option value="phone" ${param.searchType == 'phone' ? 'selected' : ''}>전화번호</option>
+						<option value="emp_name" ${param.searchType eq 'emp_name' ? 'selected' : ''}>사원명</option>
+						<option value="email" ${param.searchType eq 'email' ? 'selected' : ''}>이메일</option>
+						<option value="phone" <c:if test="${param.searchType eq 'phone'}">selected</c:if>>전화번호</option>
 					</select>
 					&nbsp;&nbsp;&nbsp;&nbsp;
 					<input type="search" name="searchKeyword" value="${param.searchKeyword}" />
@@ -63,9 +63,9 @@ table#tbl-search td {text-align:left;}
 			<tr>
 				<th>성별</th>
 				<td>
-					<input type="radio" name="gender" value='남' id="gender0" ${param.gender=='남' ? 'checked' : '' }/>
+					<input type="radio" name="gender" value='남' id="gender0" ${param.gender eq '남' ? 'checked' : '' }/>
 					<label for="gender0">남</label>
-					<input type="radio" name="gender" value='여' id="gender1" ${param.gender=='여' ? 'checked' : '' }/>
+					<input type="radio" name="gender" value='여' id="gender1" ${param.gender eq '여' ? 'checked' : '' }/>
 					<label for="gender1">여</label>
 				</td>
 			</tr>
