@@ -194,11 +194,18 @@
       <if test="jobCode != null and jobCode != ''">job_code=#{jobCode}</if>
     </set>
   	where emp_id=#{empId}
-  
   </update>
   
-  
-  
+  <!-- trim태그 사용 
+  <update id="updateEmp">
+  	update emp
+    <trim prefix="SET" suffixOverrides=",">
+      <if test="deptCode != null and deptCode != ''">dept_code=#{deptCode},</if>
+      <if test="jobCode != null and jobCode != ''">job_code=#{jobCode}</if>
+    </trim>
+  	where emp_id=#{empId}
+  </update>
+  -->
   
   
   
