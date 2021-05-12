@@ -31,6 +31,10 @@ public class UpdateEmpController extends AbstractController {
 			List<Map<String,String>> deptList = empService.selectDeptList();
 			Map<String, Object> emp = empService.selectOneEmpMap(empId);
 			
+			if(emp == null) {
+				//throw new NoMatchingEmpException(empId);
+				throw new IllegalArgumentException(empId);
+			}
 			
 			//3. jsp위임
 			request.setAttribute("emp", emp);
@@ -50,15 +54,12 @@ public class UpdateEmpController extends AbstractController {
 		
 		//String jobCode = null;
 		//String deptCode = null;
+		String empId;
 		try {
 			//1. 사용자 입력값
-			String empId = request.getParameter("empId");
+			empId = request.getParameter("empId");
 			String jobCode = request.getParameter("jobCode");
-			if("".equals(jobCode) || jobCode == null)
-				jobCode = null;
 			String deptCode = request.getParameter("deptCode");
-			if("".equals(deptCode) || deptCode == null)
-				deptCode = null;
 			
 			System.out.println("jobCode@UpdateEmpController = " + jobCode);
 			System.out.println("deptCode@UpdateEmpController = " + deptCode);
@@ -84,7 +85,7 @@ public class UpdateEmpController extends AbstractController {
 			throw e;
 		}
 		
-		return "redirect:/emp/updateEmp.do?empId=" + request.getParameter("empId");
+		return "redirect:/emp/updateEmp.do?empId=" + empId;
 	}
 	
 	

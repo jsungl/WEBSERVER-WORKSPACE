@@ -151,7 +151,7 @@
   		dept
   </select>
   
-  
+  <!-- join사용 -->
   <select id="selectOneEmpMap" resultType="map">
   	select
   		*
@@ -171,11 +171,27 @@
   		emp_id = #{empId}
   </select>
   
+  <!-- 서브쿼리 사용 
+  <select id="selectOneEmpMap" resultType="map">
+  	select
+  		e.*,
+		(select dept_title from dept where dept_id = e.dept_code) dept_title,
+		(select job_name from job where job_code = e.job_code) job_name
+  	from
+  		emp
+  	where
+  		emp_id = #{empId}
+  </select> 
+  -->
+  
+  
+  
+  
   <update id="updateEmp">
   	update emp
     <set>
-      <if test="deptCode != null">dept_code=#{deptCode},</if>
-      <if test="jobCode != null">job_code=#{jobCode}</if>
+      <if test="deptCode != null and deptCode != ''">dept_code=#{deptCode},</if>
+      <if test="jobCode != null and jobCode != ''">job_code=#{jobCode}</if>
     </set>
   	where emp_id=#{empId}
   

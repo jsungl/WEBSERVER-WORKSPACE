@@ -68,7 +68,7 @@ alert("${msg}");
 		 사용자는 변경을 원하는것만 선택한 후 제출하게 된다.
 		 제출된 컬럼값만 update하도록한다.(mybatis의 set태그 활용)	
 		 -->
-		<form action="${pageContext.request.contextPath }/emp/updateEmp.do" method="post">
+		<form action="${pageContext.request.contextPath }/emp/updateEmp.do" method="post" name="empUpdateFrm">
 			<input type="hidden" name="empId" value="${param.empId}" />
 		   	직급: 
 		    <select name="jobCode">
@@ -93,10 +93,18 @@ alert("${msg}");
 	
 </div>
 <script>
-function empUpdateValidate(){
-	//아무것도 입력하지 않은 경우, 전송하지 않는다.
+$(document.empUpdateFrm).submit(empUpdateValidate);
 
-	return true;
+function empUpdateValidate(e){
+	//아무것도 입력하지 않은 경우, 전송하지 않는다.
+	var $jobCode = $("[name=jobCode]");
+	var $deptCode = $("[name=deptCode]");
+	
+	if($jobCode.val() == '' && $deptCode.val() == ''){
+		alert("수정할 값을 선택해주세요.");
+		e.preventDefault(); //폼이 제출되지않도록 함.
+	}
+	
 }
 </script>
 </body>
